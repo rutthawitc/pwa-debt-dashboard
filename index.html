@@ -47,6 +47,7 @@ input[type=number]{font-family:var(--mono);font-size:12px;}
 .mtbl td input{border:none;width:100%;padding:3px 5px;font-size:12px;font-family:var(--font);background:transparent;}
 .mtbl td input:focus{background:#e3f2fd;outline:none;border-radius:3px;}
 .add-btn{margin-top:6px;background:none;border:1.5px dashed var(--g3);border-radius:6px;padding:4px 10px;font-size:11px;font-family:var(--font);color:var(--muted);cursor:pointer;}
+.kpi-auto{background:#f0f4ff!important;color:#1565c0!important;font-weight:700!important;cursor:default!important;border-color:#90a4ae!important;}
 .gen-btn{width:100%;padding:13px;border:none;border-radius:10px;background:linear-gradient(135deg,#b71c1c,#e53935);color:#fff;font-family:var(--font);font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 6px 20px rgba(183,28,28,.35);margin-top:6px;}
 
 /* TOPBAR */
@@ -110,6 +111,7 @@ input[type=number]{font-family:var(--mono);font-size:12px;}
 .dl{font-size:9px;color:var(--muted);font-weight:700;text-align:center;}
 .dv{font-family:var(--mono);font-size:17px;font-weight:700;text-align:center;}
 .dpct{font-family:var(--mono);font-size:12px;font-weight:700;text-align:center;}
+.dnote{margin-top:6px;font-size:9px;line-height:1.45;color:#607d8b;font-weight:700;text-align:center;}
 .pos{color:var(--blue2);}
 .neg{color:#c62828;}
 .hbr{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
@@ -122,77 +124,136 @@ input[type=number]{font-family:var(--mono);font-size:12px;}
 .legdot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
 
 /* ═══════════════════════════════════════════════
-   PRINT — A4 Portrait · 1 page · zoom fit
-   Key insight: zoom causes layout reflow unlike
-   transform:scale, so content truly fits the page
+   PRINT PREVIEW + PRINT
+   ใช้ style เดียวกันทั้งตอน render chart และตอน print จริง
 ═══════════════════════════════════════════════ */
-@media print{
-  /* A4 portrait: 210×297mm, zero margin — we handle spacing via zoom */
-  @page{
-    size: 210mm 297mm;
-    margin: 0;
-  }
+#print-only{
+  display:flex;
+  flex-direction:column;
+  box-sizing:border-box;
+  width:741px;
+  min-height:1077px;
+  max-height:1077px;
+  font-family:'Sarabun',sans-serif;
+  font-size:9px;
+  color:#1a2333;
+  background:#fff;
+}
+body.print-prepping #print-only{
+  position:fixed;
+  left:-10000px;
+  top:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+#print-only .ph,
+#print-only .pfbar{ flex-shrink:0; }
+#print-only .pcmpcard,
+#print-only .pnotescard{ flex-shrink:0; }
+#print-only .prow2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:4px;
+  min-height:0;
+}
+#print-only .prow2 > .pcard{
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+}
+#print-only .prow2 > .pcard > .pcb{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+}
+#print-only .ptrendcard{
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+}
+#print-only .ptrendcard > .pcb{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+}
+#print-only .ph{
+  background:#c62828;color:#fff;
+  padding:5px 10px;border-radius:4px 4px 0 0;
+  display:flex;justify-content:space-between;align-items:center;
+}
+#print-only .ph-t{font-size:10px;font-weight:800;}
+#print-only .ph-s{font-size:8px;opacity:.9;}
+#print-only .pfbar{
+  background:#fff;border:1px solid #eceff1;border-top:none;
+  display:flex;align-items:center;gap:8px;padding:3px 10px;
+  font-size:8px;margin-bottom:4px;
+}
+#print-only .pfbar-sep{width:1px;height:16px;background:#cfd8dc;}
+#print-only .pfl{font-size:7px;color:#607d8b;font-weight:700;text-transform:uppercase;}
+#print-only .pfv{font-size:8.5px;font-weight:800;color:#1565c0;}
+#print-only .pcard{
+  background:#fff;border:1px solid #cfd8dc;border-radius:4px;
+  margin-bottom:4px;page-break-inside:avoid;
+}
+#print-only .pch{
+  background:#f5f6f8;border-bottom:1.5px solid #eceff1;
+  padding:3px 8px;font-size:8.5px;font-weight:800;
+}
+#print-only .pcb{ padding:6px 8px; }
+#print-only .pcmp{
+  display:grid;grid-template-columns:1fr 82px 1fr;gap:5px;
+}
+#print-only .pkpair{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:5px;}
+#print-only .pkc{border-radius:4px;padding:4px 7px;color:#fff;}
+#print-only .pkv{font-size:14px;font-weight:700;font-family:'Courier New',monospace;margin:2px 0;line-height:1;}
+#print-only .pkl{font-size:7px;opacity:.85;}
+#print-only .pks{font-size:7px;opacity:.8;}
+#print-only .pdcol{
+  background:#f5f6f8;border:1px solid #eceff1;border-radius:4px;
+  display:flex;flex-direction:column;align-items:center;justify-content:space-around;
+  padding:4px;text-align:center;
+}
+#print-only .pdl{font-size:7px;color:#607d8b;font-weight:700;}
+#print-only .pdv{font-size:12px;font-weight:800;font-family:'Courier New',monospace;}
+#print-only .pdpct{font-size:9px;font-weight:800;font-family:'Courier New',monospace;}
+#print-only .pdnote{margin-top:3px;font-size:6.5px;line-height:1.35;color:#78909c;font-weight:700;text-align:center;}
+#print-only .phbr{display:flex;align-items:center;gap:5px;margin-bottom:2px;}
+#print-only .phbl{font-size:7.5px;min-width:58px;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#print-only .phbt{flex:1;background:#eceff1;border-radius:2px;height:11px;overflow:hidden;}
+#print-only .phbf{height:100%;border-radius:2px;display:flex;align-items:center;justify-content:flex-end;padding-right:4px;font-size:7.5px;font-weight:700;color:#fff;font-family:'Courier New',monospace;}
+#print-only .pg2{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
+#print-only .psl{font-size:8px;font-weight:800;margin-bottom:3px;}
+#print-only .pchw{position:relative;width:100%;}
+#print-only .pchw canvas{display:block;width:100%!important;height:100%!important;}
+#print-only .pleg{display:flex;gap:8px;margin-top:3px;flex-wrap:wrap;justify-content:center;}
+#print-only .plegitem{display:flex;align-items:center;gap:3px;font-size:7.5px;color:#607d8b;}
+#print-only .plegdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+#print-only .pntxt{font-size:8px;line-height:1.7;white-space:pre-wrap;padding:5px 7px;border-radius:4px;min-height:16px;}
+#print-only .pos{color:#1976d2;}
+#print-only .neg{color:#c62828;}
 
-  /* force color printing */
+@media print{
+  @page{ size:210mm 297mm; margin:6mm 7mm; }
   *{
     -webkit-print-color-adjust:exact!important;
     print-color-adjust:exact!important;
     color-adjust:exact!important;
-    animation:none!important;
-    transition:none!important;
   }
-
-  /* hide non-print UI */
-  #fs,#ov,.rtb{display:none!important;}
-
-  /* full-bleed white body */
-  html,body{
-    background:#fff!important;
+  body > *{ display:none!important; }
+  #print-only{
+    display:flex!important;
+    position:static!important;
+    left:auto!important;
+    top:auto!important;
+    visibility:visible!important;
+    pointer-events:auto!important;
+    width:196mm!important;
+    min-height:285mm!important;
+    max-height:285mm!important;
     margin:0!important;
-    padding:0!important;
-    width:210mm!important;
-    height:297mm!important;
-    overflow:hidden!important;
   }
-
-  #rs{
-    display:block!important;
-    background:#fff!important;
-    width:210mm!important;
-    height:297mm!important;
-    overflow:hidden!important;
-  }
-
-  /* THE KEY: zoom shrinks & reflows everything proportionally.
-     The dash is ~1100px wide on screen; 210mm ≈ 794px at 96dpi.
-     zoom:0.68 maps 1100px → ~748px which fits inside 794px.
-     Adjust this single value if content is still cut or too small. */
-  .dash{
-    zoom: 0.62;
-    max-width: none!important;
-    width: 1100px!important;
-    margin: 4mm auto!important;
-    padding: 0!important;
-    box-sizing: border-box!important;
-  }
-
-  /* no page breaks anywhere */
-  *{
-    page-break-before:avoid!important;
-    page-break-after:avoid!important;
-    page-break-inside:avoid!important;
-    break-before:avoid!important;
-    break-after:avoid!important;
-    break-inside:avoid!important;
-  }
-
-  /* fix card colors & shadows */
-  .card{box-shadow:none!important;border:1px solid #cfd8dc!important;}
-  .bda-h{background:#c62828!important;}
-  .kc.ra{background:#546e7a!important;}
-  .kc.da{background:#e67e22!important;}
-  .kc.rb{background:#1976d2!important;}
-  .kc.db{background:#e53935!important;}
 }
 </style>
 </head>
@@ -269,17 +330,9 @@ input[type=number]{font-family:var(--mono);font-size:12px;}
             </select>
           </div>
           <div class="fld"><label>เขต</label><input id="f_region" value="กปภ.เขต 6"></div>
-          <div class="fld"><label>ปีงบประมาณ A</label><input type="number" id="f_yA" value="2568"></div>
-          <div class="fld"><label>ปีงบประมาณ B</label><input type="number" id="f_yB" value="2569"></div>
-          <div class="fld"><label>เดือน A</label>
-            <select id="f_mA">
-              <option>ตุลาคม</option><option>พฤศจิกายน</option><option>ธันวาคม</option>
-              <option>มกราคม</option><option>กุมภาพันธ์</option><option>มีนาคม</option>
-              <option>เมษายน</option><option>พฤษภาคม</option><option>มิถุนายน</option>
-              <option>กรกฎาคม</option><option>สิงหาคม</option><option selected>กันยายน</option>
-            </select>
-          </div>
-          <div class="fld"><label>เดือน B</label>
+          <div class="fld"><label>ปีงบประมาณ B (ปีปัจจุบัน)</label><input type="number" id="f_yB" value="2569"></div>
+          <div class="fld"><label>ปีงบประมาณ A (ปีก่อน)</label><input type="number" id="f_yA" value="2568"></div>
+          <div class="fld"><label>เดือน B (ปัจจุบัน)</label>
             <select id="f_mB">
               <option>ตุลาคม</option><option>พฤศจิกายน</option><option>ธันวาคม</option>
               <option>มกราคม</option><option>กุมภาพันธ์</option><option selected>มีนาคม</option>
@@ -287,18 +340,14 @@ input[type=number]{font-family:var(--mono);font-size:12px;}
               <option>กรกฎาคม</option><option>สิงหาคม</option><option>กันยายน</option>
             </select>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="fsec">
-      <div class="fsh">💰 KPI หลัก (ล้านบาท)</div>
-      <div class="fsb">
-        <div class="fg fg4">
-          <div class="fld"><label>รายได้น้ำ ปี A</label><input type="number" id="f_rA" value="60.07" step="0.01"></div>
-          <div class="fld"><label>หนี้ค้าง ปี A</label><input type="number" id="f_dA" value="19.96" step="0.01"></div>
-          <div class="fld"><label>รายได้น้ำ ปี B</label><input type="number" id="f_rB" value="62.40" step="0.01"></div>
-          <div class="fld"><label>หนี้ค้าง ปี B</label><input type="number" id="f_dB" value="18.71" step="0.01"></div>
+          <div class="fld"><label>เดือน A (ก่อน)</label>
+            <select id="f_mA">
+              <option>ตุลาคม</option><option>พฤศจิกายน</option><option>ธันวาคม</option>
+              <option>มกราคม</option><option>กุมภาพันธ์</option><option>มีนาคม</option>
+              <option>เมษายน</option><option>พฤษภาคม</option><option>มิถุนายน</option>
+              <option>กรกฎาคม</option><option>สิงหาคม</option><option selected>กันยายน</option>
+            </select>
+          </div>
         </div>
       </div>
     </div>
@@ -307,16 +356,27 @@ input[type=number]{font-family:var(--mono);font-size:12px;}
       <div class="fsh">👥 หนี้ค้างแยกประเภท (ล้านบาท)</div>
       <div class="fsb">
         <table class="mtbl">
-          <thead><tr><th>ประเภท</th><th>รายได้ A</th><th>หนี้ค้าง A</th><th>รายได้ B</th><th>หนี้ค้าง B</th></tr></thead>
-          <tbody id="cat-rows">
-            <tr><td><input value="ที่พักอาศัย"></td><td><input type="number" value="31.00" step="0.01"></td><td><input type="number" value="6.86" step="0.01"></td><td><input type="number" value="32.33" step="0.01"></td><td><input type="number" value="6.33" step="0.01"></td></tr>
-            <tr><td><input value="ธุรกิจขนาดเล็ก"></td><td><input type="number" value="12.54" step="0.01"></td><td><input type="number" value="2.59" step="0.01"></td><td><input type="number" value="13.04" step="0.01"></td><td><input type="number" value="2.50" step="0.01"></td></tr>
-            <tr><td><input value="ธุรกิจขนาดใหญ่"></td><td><input type="number" value="10.86" step="0.01"></td><td><input type="number" value="1.45" step="0.01"></td><td><input type="number" value="11.33" step="0.01"></td><td><input type="number" value="1.10" step="0.01"></td></tr>
-            <tr><td><input value="รัฐวิสาหกิจ"></td><td><input type="number" value="0.26" step="0.01"></td><td><input type="number" value="0.04" step="0.01"></td><td><input type="number" value="0.28" step="0.01"></td><td><input type="number" value="0.01" step="0.01"></td></tr>
-            <tr><td><input value="ราชการ"></td><td><input type="number" value="5.41" step="0.01"></td><td><input type="number" value="9.03" step="0.01"></td><td><input type="number" value="5.41" step="0.01"></td><td><input type="number" value="8.77" step="0.01"></td></tr>
+          <thead><tr><th>ประเภท</th><th>รายได้ B</th><th>หนี้ค้าง B</th><th>รายได้ A</th><th>หนี้ค้าง A</th></tr></thead>
+          <tbody id="cat-rows" oninput="syncKPI()">
+            <tr><td><input value="ที่พักอาศัย"></td><td><input type="number" value="32.33" step="0.01"></td><td><input type="number" value="6.33" step="0.01"></td><td><input type="number" value="31.00" step="0.01"></td><td><input type="number" value="6.86" step="0.01"></td></tr>
+            <tr><td><input value="ธุรกิจขนาดเล็ก"></td><td><input type="number" value="13.04" step="0.01"></td><td><input type="number" value="2.50" step="0.01"></td><td><input type="number" value="12.54" step="0.01"></td><td><input type="number" value="2.59" step="0.01"></td></tr>
+            <tr><td><input value="ธุรกิจขนาดใหญ่"></td><td><input type="number" value="11.33" step="0.01"></td><td><input type="number" value="1.10" step="0.01"></td><td><input type="number" value="10.86" step="0.01"></td><td><input type="number" value="1.45" step="0.01"></td></tr>
+            <tr><td><input value="รัฐวิสาหกิจ"></td><td><input type="number" value="0.28" step="0.01"></td><td><input type="number" value="0.01" step="0.01"></td><td><input type="number" value="0.26" step="0.01"></td><td><input type="number" value="0.04" step="0.01"></td></tr>
+            <tr><td><input value="ราชการ"></td><td><input type="number" value="5.41" step="0.01"></td><td><input type="number" value="8.77" step="0.01"></td><td><input type="number" value="5.41" step="0.01"></td><td><input type="number" value="9.03" step="0.01"></td></tr>
           </tbody>
         </table>
-        <button class="add-btn" onclick="addCat()">+ เพิ่มประเภท</button>
+      </div>
+    </div>
+
+    <div class="fsec">
+      <div class="fsh">💰 KPI หลัก (ล้านบาท)</div>
+      <div class="fsb">
+        <div class="fg fg4">
+          <div class="fld"><label>รายได้น้ำ ปี B (ปัจจุบัน)</label><input type="number" id="f_rB" step="0.01" readonly class="kpi-auto"></div>
+          <div class="fld"><label>หนี้ค้าง ปี B (ปัจจุบัน)</label><input type="number" id="f_dB" step="0.01" readonly class="kpi-auto"></div>
+          <div class="fld"><label>รายได้น้ำ ปี A (ก่อน)</label><input type="number" id="f_rA" step="0.01" readonly class="kpi-auto"></div>
+          <div class="fld"><label>หนี้ค้าง ปี A (ก่อน)</label><input type="number" id="f_dA" step="0.01" readonly class="kpi-auto"></div>
+        </div>
       </div>
     </div>
 
@@ -437,7 +497,7 @@ input[type=number]{font-family:var(--mono);font-size:12px;}
     <div class="ov-spin"></div>
     <div class="ov-t" id="ov-t">กำลังเตรียม...</div>
     <div class="ov-s" id="ov-s">รอสักครู่</div>
-    <div class="ov-tip">💡 <strong>วิธีบันทึก PDF:</strong><br>เมื่อ Print Dialog เปิด<br>→ Destination: <strong>Save as PDF</strong><br>→ กด <strong>Save</strong></div>
+    <div class="ov-tip" id="ov-tip">💡 <strong>วิธีบันทึก PDF:</strong><br>เมื่อ Print Dialog เปิด<br>→ Destination: <strong>Save as PDF</strong><br>→ กด <strong>Save</strong></div>
   </div>
 </div>
 
@@ -450,7 +510,7 @@ input[type=number]{font-family:var(--mono);font-size:12px;}
     </div>
     <div class="rtb-btns">
       <button class="rbtn" onclick="showForm()">← แก้ไข</button>
-      <button class="rbtn" onclick="window.print()">🖨️ Print</button>
+      <button class="rbtn" onclick="printReport()">🖨️ Print</button>
       <button class="rbtn p" onclick="exportPDF()">⬇️ Export PDF</button>
     </div>
   </div>
@@ -463,13 +523,13 @@ input[type=number]{font-family:var(--mono);font-size:12px;}
     </div>
     <!-- Filter bar -->
     <div class="fbar">
-      <div><div class="fl">ปีงบประมาณ A</div><div class="fv" id="fb-yA">—</div></div>
-      <div class="sep"></div>
-      <div><div class="fl">เดือน A</div><div class="fv" id="fb-mA">—</div></div>
-      <div class="sp"></div>
       <div><div class="fl">ปีงบประมาณ B</div><div class="fv" id="fb-yB">—</div></div>
       <div class="sep"></div>
       <div><div class="fl">เดือน B</div><div class="fv" id="fb-mB">—</div></div>
+      <div class="sp"></div>
+      <div><div class="fl">ปีงบประมาณ A</div><div class="fv" id="fb-yA">—</div></div>
+      <div class="sep"></div>
+      <div><div class="fl">เดือน A</div><div class="fv" id="fb-mA">—</div></div>
     </div>
     <div class="sg"></div>
 
@@ -478,24 +538,6 @@ input[type=number]{font-family:var(--mono);font-size:12px;}
       <div class="ch">ข้อมูลหนี้ค้างชำระ ทุกประเภท</div>
       <div class="cb">
         <div class="cmp">
-          <div>
-            <div class="sec-lbl" style="font-size:10px;font-weight:800;color:var(--muted);text-align:center;margin-bottom:6px;" id="lab-a">—</div>
-            <div class="kpi-pair">
-              <div class="kc ra"><div class="kl">รายได้ค่าน้ำทั้งหมด</div><div class="kv" id="kv-rA">—</div><div class="ks">Revenue Period A</div></div>
-              <div class="kc da"><div class="kl">ค่าน้ำค้างชำระทั้งหมด</div><div class="kv" id="kv-dA">—</div><div class="ks">Debt Period A</div></div>
-            </div>
-            <div style="font-size:10px;font-weight:800;margin-bottom:4px;" class="sec-lbl">รายได้ค่าน้ำ (ล้านบาท)</div>
-            <div id="hb-rA"></div>
-            <div style="font-size:10px;font-weight:800;margin:4px 0;" class="sec-lbl">ค่าน้ำค้างชำระ (ล้านบาท)</div>
-            <div id="hb-dA"></div>
-          </div>
-          <div class="dcol">
-            <div><div class="dl">ผลต่างรายได้ค่าน้ำ</div><div class="dv" id="d-r">—</div></div>
-            <div><div class="dl">ผลต่างค่าน้ำค้างชำระ</div><div class="dv" id="d-d">—</div></div>
-            <div><div class="dl">% ผลต่างรายได้</div><div class="dpct" id="dp-r">—</div></div>
-            <div><div class="dl">% ผลต่างค่าน้ำค้าง</div><div class="dpct" id="dp-d">—</div></div>
-            <div><div class="dl" style="margin-bottom:3px;">ผลต่างรายได้เทียบหนี้ค้าง</div><div id="wf"></div></div>
-          </div>
           <div>
             <div class="sec-lbl" style="font-size:10px;font-weight:800;color:var(--muted);text-align:center;margin-bottom:6px;" id="lab-b">—</div>
             <div class="kpi-pair">
@@ -507,13 +549,32 @@ input[type=number]{font-family:var(--mono);font-size:12px;}
             <div style="font-size:10px;font-weight:800;margin:4px 0;" class="sec-lbl">ค่าน้ำค้างชำระ (ล้านบาท)</div>
             <div id="hb-dB"></div>
           </div>
+          <div class="dcol">
+            <div><div class="dl">ผลต่างรายได้ค่าน้ำ (B - A)</div><div class="dv" id="d-r">—</div></div>
+            <div><div class="dl">ผลต่างค่าน้ำค้างชำระ (B - A)</div><div class="dv" id="d-d">—</div></div>
+            <div><div class="dl">% ผลต่างรายได้ (B - A)</div><div class="dpct" id="dp-r">—</div></div>
+            <div><div class="dl">% ผลต่างค่าน้ำค้าง (B - A)</div><div class="dpct" id="dp-d">—</div></div>
+            <div><div class="dl" style="margin-bottom:3px;">ผลต่างรายได้เทียบหนี้ค้าง (B - A)</div><div id="wf"></div></div>
+            <div class="dnote">B = ปีปัจจุบัน<br>A = ปีก่อน</div>
+          </div>
+          <div>
+            <div class="sec-lbl" style="font-size:10px;font-weight:800;color:var(--muted);text-align:center;margin-bottom:6px;" id="lab-a">—</div>
+            <div class="kpi-pair">
+              <div class="kc ra"><div class="kl">รายได้ค่าน้ำทั้งหมด</div><div class="kv" id="kv-rA">—</div><div class="ks">Revenue Period A</div></div>
+              <div class="kc da"><div class="kl">ค่าน้ำค้างชำระทั้งหมด</div><div class="kv" id="kv-dA">—</div><div class="ks">Debt Period A</div></div>
+            </div>
+            <div style="font-size:10px;font-weight:800;margin-bottom:4px;" class="sec-lbl">รายได้ค่าน้ำ (ล้านบาท)</div>
+            <div id="hb-rA"></div>
+            <div style="font-size:10px;font-weight:800;margin:4px 0;" class="sec-lbl">ค่าน้ำค้างชำระ (ล้านบาท)</div>
+            <div id="hb-dA"></div>
+          </div>
         </div>
         <!-- regional charts -->
         <div style="margin-top:8px;border-top:1px solid var(--g2);padding-top:6px;">
           <div style="font-size:10px;font-weight:800;margin-bottom:4px;" class="sec-lbl">จำนวนหนี้ค้างเทียบรายได้ รายเขต (ล้านบาท)</div>
           <div class="g2">
-            <div><div style="font-size:9px;color:var(--muted);margin-bottom:3px;">Period A</div><div class="chw" style="height:85px;"><canvas id="c-cmpa"></canvas></div></div>
             <div><div style="font-size:9px;color:var(--muted);margin-bottom:3px;">Period B</div><div class="chw" style="height:85px;"><canvas id="c-cmpb"></canvas></div></div>
+            <div><div style="font-size:9px;color:var(--muted);margin-bottom:3px;">Period A</div><div class="chw" style="height:85px;"><canvas id="c-cmpa"></canvas></div></div>
           </div>
         </div>
       </div>
@@ -727,8 +788,8 @@ const PRIV_KW = ['พักอาศัย','ธุรกิจ'];   // keyword 
 const GOVT_KW = ['ราชการ','รัฐวิสาหกิจ'];
 
 function calcPrivGovt(){
-  // column order ใหม่: ประเภท, รายได้A, หนี้ค้างA, รายได้B, หนี้ค้างB
-  const cats = getTbl('cat-rows',['n','rA','dA','rB','dB']);
+  // column order: ประเภท, รายได้B, หนี้ค้างB, รายได้A, หนี้ค้างA
+  const cats = getTbl('cat-rows',['n','rB','dB','rA','dA']);
   let pA=0, gA=0, pB=0, gB=0;
   cats.forEach(c=>{
     const name = c.n || '';
@@ -775,10 +836,10 @@ function wfall(divId,dR,dD){
   const el=$(divId);
   const mx=Math.max(Math.abs(dR),Math.abs(dD),1);
   const hr=Math.abs(dR/mx*44).toFixed(0),hd=Math.abs(dD/mx*44).toFixed(0);
-  // dR = A-B ของรายได้: ถ้า > 0 รายได้ลด = แดง; ถ้า < 0 รายได้เพิ่ม = น้ำเงิน
-  // dD = A-B ของหนี้: ถ้า > 0 หนี้ลด = น้ำเงิน (ดี); ถ้า < 0 หนี้เพิ่ม = แดง
-  const cr=dR>0?'#c62828':'#1976d2';
-  const cd=dD>0?'#1976d2':'#c62828';
+  // dR = B-A ของรายได้: ถ้า > 0 รายได้เพิ่ม = น้ำเงิน; ถ้า < 0 รายได้ลด = แดง
+  // dD = B-A ของหนี้: ถ้า > 0 หนี้เพิ่ม = แดง; ถ้า < 0 หนี้ลด = น้ำเงิน
+  const cr=dR<0?'#c62828':'#1976d2';
+  const cd=dD>0?'#c62828':'#1976d2';
   el.innerHTML=`<div style="display:flex;gap:8px;justify-content:center;align-items:flex-end;">
     <div style="text-align:center;"><div style="font-size:8px;color:var(--muted);">รายได้</div><div style="width:22px;background:${cr};height:${hr}px;border-radius:3px;margin:2px auto;min-height:4px;"></div><div style="font-family:var(--mono);font-size:8px;color:${cr};">${dR>0?'+':''}${f(dR)}</div></div>
     <div style="text-align:center;"><div style="font-size:8px;color:var(--muted);">หนี้ค้าง</div><div style="width:22px;background:${cd};height:${hd}px;border-radius:3px;margin:2px auto;min-height:4px;"></div><div style="font-family:var(--mono);font-size:8px;color:${cd};">${dD>0?'+':''}${f(dD)}</div></div>
@@ -787,7 +848,151 @@ function wfall(divId,dR,dD){
 
 const C5=['#26a69a','#ef9a9a','#9c27b0','#e67e22','#1976d2'];
 const CB={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}};
+const pointValueLabelsPlugin={
+  id:'pointValueLabels',
+  afterDatasetsDraw(chart,args,pluginOptions){
+    if(pluginOptions===false) return;
+    const {ctx,chartArea}=chart;
+    if(!chartArea) return;
+    const opts={
+      color:'#5f6368',
+      strokeColor:'rgba(255,255,255,.92)',
+      strokeWidth:3,
+      fontSize:10,
+      fontFamily:'Sarabun',
+      offsets:[-14,12,-18,14,-10],
+      formatter:(v)=>Number(v).toFixed(2),
+      ...pluginOptions
+    };
+    ctx.save();
+    ctx.fillStyle=opts.color;
+    ctx.strokeStyle=opts.strokeColor;
+    ctx.lineWidth=opts.strokeWidth;
+    ctx.lineJoin='round';
+    ctx.textAlign='center';
+    ctx.font=`700 ${opts.fontSize}px ${opts.fontFamily}`;
 
+    chart.data.datasets.forEach((dataset,datasetIndex)=>{
+      if(!chart.isDatasetVisible(datasetIndex)) return;
+      const meta=chart.getDatasetMeta(datasetIndex);
+      if(meta.hidden) return;
+      const offset=opts.offsets[datasetIndex % opts.offsets.length];
+      meta.data.forEach((point,index)=>{
+        const raw=dataset.data[index];
+        if(raw==null || Number.isNaN(Number(raw))) return;
+        const {x,y}=point.getProps(['x','y'],true);
+        const text=opts.formatter(raw,datasetIndex,index,dataset);
+        const labelY=Math.max(
+          chartArea.top + opts.fontSize,
+          Math.min(chartArea.bottom - opts.fontSize, y + offset)
+        );
+        ctx.textBaseline=offset < 0 ? 'bottom' : 'top';
+        ctx.strokeText(text,x,labelY);
+        ctx.fillText(text,x,labelY);
+      });
+    });
+    ctx.restore();
+  }
+};
+
+const barValueLabelsPlugin={
+  id:'barValueLabels',
+  afterDatasetsDraw(chart,args,pluginOptions){
+    if(pluginOptions===false) return;
+    const {ctx,chartArea}=chart;
+    if(!chartArea) return;
+    const opts={
+      color:'#5f6368',
+      strokeColor:'rgba(255,255,255,.92)',
+      strokeWidth:3,
+      fontSize:11,
+      fontFamily:'Sarabun',
+      offset:8,
+      inside:false,
+      rotate:0,
+      minBarLength:18,
+      formatter:(v)=>Number(v).toFixed(2),
+      ...pluginOptions
+    };
+    ctx.save();
+    ctx.fillStyle=opts.color;
+    ctx.strokeStyle=opts.strokeColor;
+    ctx.lineWidth=opts.strokeWidth;
+    ctx.lineJoin='round';
+    ctx.textAlign='center';
+    ctx.font=`700 ${opts.fontSize}px ${opts.fontFamily}`;
+
+    chart.data.datasets.forEach((dataset,datasetIndex)=>{
+      if(!chart.isDatasetVisible(datasetIndex)) return;
+      const meta=chart.getDatasetMeta(datasetIndex);
+      if(meta.hidden) return;
+      meta.data.forEach((bar,index)=>{
+        const raw=dataset.data[index];
+        if(raw==null || Number.isNaN(Number(raw))) return;
+        const {x,y,base}=bar.getProps(['x','y','base'],true);
+        const barHeight=Math.abs(base - y);
+        if(opts.inside && barHeight < opts.minBarLength) return;
+        const text=opts.formatter(raw,datasetIndex,index,dataset);
+        let labelY;
+        if(opts.inside){
+          labelY=Math.min(y,base) + barHeight / 2;
+        }else{
+          const topY=Math.min(y,base) - opts.offset;
+          labelY=Math.max(chartArea.top + opts.fontSize, topY);
+        }
+        ctx.save();
+        ctx.translate(x,labelY);
+        if(opts.rotate) ctx.rotate((opts.rotate * Math.PI) / 180);
+        ctx.textAlign='center';
+        ctx.textBaseline='middle';
+        ctx.strokeText(text,0,0);
+        ctx.fillText(text,0,0);
+        ctx.restore();
+      });
+    });
+    ctx.restore();
+  }
+};
+
+function trendLabelOptions(fontSize){
+  return {
+    pointValueLabels:{
+      fontSize,
+      offsets:[-14,12,-18,14,-10]
+    }
+  };
+}
+function barLabelOptions(fontSize){
+  return {
+    barValueLabels:{
+      fontSize,
+      offset:fontSize <= 8 ? 5 : 8
+    }
+  };
+}
+function monthlyBarLabelOptions(fontSize){
+  return {
+    barValueLabels:{
+      fontSize,
+      inside:true,
+      rotate:-90,
+      offset:0,
+      minBarLength:16,
+      color:'rgba(255,255,255,.96)',
+      strokeColor:'rgba(0,0,0,.10)',
+      strokeWidth:2
+    }
+  };
+}
+
+function syncKPI(){
+  const rows=[...document.querySelectorAll('#cat-rows tr')];
+  const sum=(col)=>rows.reduce((s,r)=>{const ins=r.querySelectorAll('input');return s+(parseFloat(ins[col]?.value)||0);},0);
+  $('f_rB').value=sum(1).toFixed(2);
+  $('f_dB').value=sum(2).toFixed(2);
+  $('f_rA').value=sum(3).toFixed(2);
+  $('f_dA').value=sum(4).toFixed(2);
+}
 function gen(){
   const branch=$('f_branch').value,region=$('f_region').value;
   const yA=$('f_yA').value,yB=$('f_yB').value;
@@ -798,13 +1003,13 @@ function gen(){
   const {pA,gA,pB,gB} = calcPrivGovt();
   const yn5=$('yn5').value,yn4=$('yn4').value,yn3=$('yn3').value,yn2=$('yn2').value,yn1=$('yn1').value;
   // column order ใหม่: ประเภท, รายได้A, หนี้ค้างA, รายได้B, หนี้ค้างB
-  const cats=getTbl('cat-rows',['n','rA','dA','rB','dB']).sort((a,b)=>parseFloat(b.dA)-parseFloat(a.dA));
+  const cats=getTbl('cat-rows',['n','rB','dB','rA','dA']).sort((a,b)=>parseFloat(b.dA)-parseFloat(a.dA));
   const mos=getTbl('mo-rows',['m','prev','cur']);
   const trs=getTbl('tr-rows',['m','y5','y4','y3','y2','y1']);
-  const dR=rA-rB, dD=dA-dB;   // A - B ตามแบบ BDA (ปีก่อน - ปีปัจจุบัน)
-  const pR=rB?dR/rB*100:0,  pD=dB?dD/dB*100:0;
-  // ผลต่างรายได้: ถ้า dR > 0 (ปีก่อนมากกว่า) = ไม่ดี (รายได้ลดลง)
-  // ผลต่างหนี้ค้าง: ถ้า dD > 0 (ปีก่อนมากกว่า) = ดี (หนี้ลดลง)
+  const dR=rB-rA, dD=dB-dA;   // B - A (ปีปัจจุบัน - ปีก่อน)
+  const pR=rA?dR/rA*100:0,  pD=dA?dD/dA*100:0;
+  // รายได้: dR > 0 = รายได้เพิ่ม (ดี), dR < 0 = รายได้ลด (ไม่ดี)
+  // หนี้ค้าง: dD > 0 = หนี้เพิ่ม (ไม่ดี), dD < 0 = หนี้ลด (ดี)
   const period=`ประจำปี ${yB} เดือน ${mA} - ${mB}`;
   $('tb-s').textContent=`${region} — ${period}`;
   $('r-sub').textContent=period;$('r-branch').textContent=branch;$('r-period').textContent=period;
@@ -812,12 +1017,10 @@ function gen(){
   $('lab-a').textContent=`${branch} — ปี ${yA} (${mA})`;$('lab-b').textContent=`${branch} — ปี ${yB} (${mB})`;
   $('kv-rA').textContent=f(rA);$('kv-dA').textContent=f(dA);$('kv-rB').textContent=f(rB);$('kv-dB').textContent=f(dB);
   $('leg-a').textContent=`ปีก่อน (${yA})`;$('leg-b').textContent=`ปีปัจจุบัน (${yB})`;
-  // ผลต่างรายได้: dR>0 หมายถึงรายได้ปีก่อน>ปีนี้ = ไม่ดี (แดง) / dR<0 = ดี (น้ำเงิน)
-  // ผลต่างหนี้ค้าง: BDA แสดง positive = แดง, negative = น้ำเงิน (ตามแบบ BDA จริง)
-  setDiff('d-r', dR, true);   // flipBad=true: dR>0=แดง, dR<0=น้ำเงิน
-  setDiff('d-d', dD, true);   // flipBad=true: dD>0=แดง, dD<0=น้ำเงิน (ตาม BDA)
-  setPct('dp-r', pR, true);
-  setPct('dp-d', pD, true);   // BDA ใช้ตัวเดียวกัน: positive=แดง
+  setDiff('d-r', dR, false);  // รายได้เพิ่ม = ดี
+  setDiff('d-d', dD, true);   // หนี้เพิ่ม = ไม่ดี
+  setPct('dp-r', pR, false);
+  setPct('dp-d', pD, true);
   wfall('wf', dR, dD);
   const mxR=Math.max(...cats.map(c=>Math.max(parseFloat(c.rA)||0,parseFloat(c.rB)||0)))*1.15;
   const mxD=Math.max(...cats.map(c=>Math.max(parseFloat(c.dA)||0,parseFloat(c.dB)||0)))*1.15;
@@ -825,12 +1028,37 @@ function gen(){
   hbars('hb-rB',cats,'rB','#1976d2',mxR);hbars('hb-dB',cats,'dB','#e53935',mxD);
   const cL=cats.map(c=>c.n);
   const cO={...CB,scales:{x:{ticks:{color:'#607d8b',font:{size:8}},grid:{display:false}},y:{ticks:{color:'#607d8b',font:{size:8}},grid:{color:'rgba(0,0,0,.05)'}}}};
-  dc('c-cmpa');charts['c-cmpa']=new Chart($('c-cmpa'),{type:'bar',data:{labels:cL,datasets:[{label:'รายได้ A',data:cats.map(c=>parseFloat(c.rA)||0),backgroundColor:'#90a4ae',borderRadius:3},{label:'หนี้ค้าง A',data:cats.map(c=>parseFloat(c.dA)||0),backgroundColor:'#e67e22',borderRadius:3}]},options:{...cO,plugins:{legend:{display:true,labels:{color:'#607d8b',font:{size:8},boxWidth:9}}}}});
-  dc('c-cmpb');charts['c-cmpb']=new Chart($('c-cmpb'),{type:'bar',data:{labels:cL,datasets:[{label:'รายได้ B',data:cats.map(c=>parseFloat(c.rB)||0),backgroundColor:'#1976d2',borderRadius:3},{label:'หนี้ค้าง B',data:cats.map(c=>parseFloat(c.dB)||0),backgroundColor:'#e53935',borderRadius:3}]},options:{...cO,plugins:{legend:{display:true,labels:{color:'#607d8b',font:{size:8},boxWidth:9}}}}});
-  dc('c-yr');charts['c-yr']=new Chart($('c-yr'),{type:'bar',data:{labels:[yA,yB],datasets:[{label:'เอกชน',data:[pA,pB],backgroundColor:'#ef9a9a',borderRadius:5},{label:'ราชการ',data:[gA,gB],backgroundColor:'#1976d2',borderRadius:5}]},options:{...CB,scales:{x:{ticks:{color:'#607d8b',font:{size:10}},grid:{display:false}},y:{ticks:{color:'#607d8b',font:{size:9}},grid:{color:'rgba(0,0,0,.05)'}}}}});
-  dc('c-mo');charts['c-mo']=new Chart($('c-mo'),{type:'bar',data:{labels:mos.map(m=>m.m),datasets:[{label:`ปีก่อน`,data:mos.map(m=>parseFloat(m.prev)||0),backgroundColor:'rgba(239,154,154,.75)',borderRadius:3},{label:`ปีปัจจุบัน`,data:mos.map(m=>parseFloat(m.cur)||0),backgroundColor:'rgba(25,118,210,.75)',borderRadius:3}]},options:{...CB,scales:{x:{ticks:{color:'#607d8b',font:{size:10}},grid:{display:false}},y:{ticks:{color:'#607d8b',font:{size:9}},grid:{color:'rgba(0,0,0,.05)'}}}}});
+  dc('c-cmpa');charts['c-cmpa']=new Chart($('c-cmpa'),{
+    type:'bar',
+    data:{labels:cL,datasets:[{label:'รายได้ A',data:cats.map(c=>parseFloat(c.rA)||0),backgroundColor:'#90a4ae',borderRadius:3},{label:'หนี้ค้าง A',data:cats.map(c=>parseFloat(c.dA)||0),backgroundColor:'#e67e22',borderRadius:3}]},
+    plugins:[barValueLabelsPlugin],
+    options:{...cO,plugins:{legend:{display:true,labels:{color:'#607d8b',font:{size:8},boxWidth:9}},...barLabelOptions(8)}}}
+  );
+  dc('c-cmpb');charts['c-cmpb']=new Chart($('c-cmpb'),{
+    type:'bar',
+    data:{labels:cL,datasets:[{label:'รายได้ B',data:cats.map(c=>parseFloat(c.rB)||0),backgroundColor:'#1976d2',borderRadius:3},{label:'หนี้ค้าง B',data:cats.map(c=>parseFloat(c.dB)||0),backgroundColor:'#e53935',borderRadius:3}]},
+    plugins:[barValueLabelsPlugin],
+    options:{...cO,plugins:{legend:{display:true,labels:{color:'#607d8b',font:{size:8},boxWidth:9}},...barLabelOptions(8)}}}
+  );
+  dc('c-yr');charts['c-yr']=new Chart($('c-yr'),{
+    type:'bar',
+    data:{labels:[yA,yB],datasets:[{label:'เอกชน',data:[pA,pB],backgroundColor:'#ef9a9a',borderRadius:5},{label:'ราชการ',data:[gA,gB],backgroundColor:'#1976d2',borderRadius:5}]},
+    plugins:[barValueLabelsPlugin],
+    options:{...CB,plugins:{legend:{display:false},...barLabelOptions(11)},scales:{x:{ticks:{color:'#607d8b',font:{size:10}},grid:{display:false}},y:{ticks:{color:'#607d8b',font:{size:9}},grid:{color:'rgba(0,0,0,.05)'}}}}
+  });
+  dc('c-mo');charts['c-mo']=new Chart($('c-mo'),{
+    type:'bar',
+    data:{labels:mos.map(m=>m.m),datasets:[{label:`ปีก่อน`,data:mos.map(m=>parseFloat(m.prev)||0),backgroundColor:'rgba(239,154,154,.75)',borderRadius:3},{label:`ปีปัจจุบัน`,data:mos.map(m=>parseFloat(m.cur)||0),backgroundColor:'rgba(25,118,210,.75)',borderRadius:3}]},
+    plugins:[barValueLabelsPlugin],
+    options:{...CB,plugins:{legend:{display:false},...monthlyBarLabelOptions(8)},scales:{x:{ticks:{color:'#607d8b',font:{size:10}},grid:{display:false}},y:{ticks:{color:'#607d8b',font:{size:9}},grid:{color:'rgba(0,0,0,.05)'}}}}
+  });
   const tyrs=[yn5,yn4,yn3,yn2,yn1],tkeys=['y5','y4','y3','y2','y1'];
-  dc('c-trend');charts['c-trend']=new Chart($('c-trend'),{type:'line',data:{labels:trs.map(r=>r.m),datasets:tkeys.map((k,i)=>({label:tyrs[i],data:trs.map(r=>parseFloat(r[k])||null),borderColor:C5[i],backgroundColor:'transparent',tension:.3,pointRadius:3,borderWidth:2}))},options:{...CB,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#607d8b',font:{size:10}},grid:{color:'rgba(0,0,0,.04)'}},y:{ticks:{color:'#607d8b',font:{size:9}},grid:{color:'rgba(0,0,0,.06)'},title:{display:true,text:'ล้านบาท',color:'#90a4ae',font:{size:9}}}}}});
+  dc('c-trend');charts['c-trend']=new Chart($('c-trend'),{
+    type:'line',
+    data:{labels:trs.map(r=>r.m),datasets:tkeys.map((k,i)=>({label:tyrs[i],data:trs.map(r=>parseFloat(r[k])||null),borderColor:C5[i],backgroundColor:'transparent',tension:.3,pointRadius:3,borderWidth:2}))},
+    plugins:[pointValueLabelsPlugin],
+    options:{...CB,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},...trendLabelOptions(10)},scales:{x:{ticks:{color:'#607d8b',font:{size:10}},grid:{color:'rgba(0,0,0,.04)'}},y:{ticks:{color:'#607d8b',font:{size:9}},grid:{color:'rgba(0,0,0,.06)'},title:{display:true,text:'ล้านบาท',color:'#90a4ae',font:{size:9}}}}}
+  });
   $('trend-leg').innerHTML=tyrs.map((y,i)=>`<div class="leg"><div class="legdot" style="background:${C5[i]};"></div>${y}</div>`).join('');
 
   // ─ การดำเนินงานและปัญหาอุปสรรค ─
@@ -850,29 +1078,417 @@ function gen(){
 
 function showForm(){$('rs').style.display='none';$('fs').style.display='flex';}
 
-async function exportPDF(){
-  const ov=$('ov');ov.style.display='flex';
-  $('ov-t').textContent='กำลังเตรียม Dashboard...';
-  $('ov-s').textContent='รอ font & chart render';
-  await new Promise(r=>setTimeout(r,80));
-  Object.values(charts).forEach(c=>{if(c){c.options.animation=false;c.update('none');}});
-  const fr=document.createElement('style');fr.id='__fr';
-  fr.textContent='*,*::before,*::after{animation-duration:0s!important;transition-duration:0s!important;}';
-  document.head.appendChild(fr);
-  $('ov-t').textContent='รอ Web Fonts...';
-  await document.fonts.ready;
-  await new Promise(r=>setTimeout(r,400));
-  $('ov-t').textContent='🖨️ กำลังเปิด Print Dialog...';
-  $('ov-s').textContent='เลือก Save as PDF แล้วกด Save';
-  await new Promise(r=>setTimeout(r,250));
-  ov.style.display='none';
-  window.print();
-  document.getElementById('__fr')?.remove();
-  Object.values(charts).forEach(c=>{if(c)c.options.animation={duration:600};});
+// ═══════════════════════════════════════════════════════════
+// PRINT LAYOUT BUILDER — สร้าง HTML เฉพาะสำหรับ A4 Portrait
+// ═══════════════════════════════════════════════════════════
+const PRINT_PX_PER_MM = 96 / 25.4;
+const PRINT_INNER_W_PX = Math.round((210 - 14) * PRINT_PX_PER_MM);
+const PRINT_INNER_H_PX = Math.round((297 - 12) * PRINT_PX_PER_MM);
+const printCharts = [];
+
+function wait(ms){ return new Promise(r=>setTimeout(r,ms)); }
+function nextFrame(){ return new Promise(r=>requestAnimationFrame(r)); }
+function outerHeight(el){
+  if(!el) return 0;
+  const rect = el.getBoundingClientRect();
+  const cs = getComputedStyle(el);
+  return rect.height + (parseFloat(cs.marginTop)||0) + (parseFloat(cs.marginBottom)||0);
+}
+function destroyPrintCharts(){
+  while(printCharts.length){
+    const chart = printCharts.pop();
+    try{ chart.destroy(); }catch(_){}
+  }
+}
+function cleanupPrintLayout(){
+  destroyPrintCharts();
+  const po = document.getElementById('print-only');
+  if(po) po.remove();
+  document.body.classList.remove('print-prepping');
+}
+function setPrintOverlay(mode, title, subtitle){
+  $('ov-t').textContent = title;
+  $('ov-s').textContent = subtitle;
+  const tip = $('ov-tip');
+  if(!tip) return;
+  tip.innerHTML = mode === 'print'
+    ? '💡 <strong>วิธีพิมพ์/บันทึก:</strong><br>เมื่อ Print Dialog เปิด<br>→ เลือกเครื่องพิมพ์ หรือ <strong>Save as PDF</strong><br>→ กด <strong>Print</strong> หรือ <strong>Save</strong>'
+    : '💡 <strong>วิธีบันทึก PDF:</strong><br>เมื่อ Print Dialog เปิด<br>→ Destination: <strong>Save as PDF</strong><br>→ กด <strong>Save</strong>';
+}
+function applyPrintCanvasHeights(po, row2H, trendH){
+  po.querySelectorAll('.prow2 .pchw').forEach(el => { el.style.height = `${row2H}px`; });
+  const trendWrap = po.querySelector('.ptrendcard .pchw');
+  if(trendWrap) trendWrap.style.height = `${trendH}px`;
+}
+function fitPrintLayout(po){
+  if(!po) return;
+  const header = po.querySelector('.ph');
+  const filterBar = po.querySelector('.pfbar');
+  const cmpCard = po.querySelector('.pcmpcard');
+  const notesCard = po.querySelector('.pnotescard');
+  const row2Card = po.querySelector('.prow2 .pcard');
+  const row2Wrap = po.querySelector('.prow2 .pchw');
+  const trendCard = po.querySelector('.ptrendcard');
+  const trendWrap = po.querySelector('.ptrendcard .pchw');
+  if(!row2Card || !row2Wrap || !trendCard || !trendWrap) return;
+
+  const fixedHeight =
+    outerHeight(header) +
+    outerHeight(filterBar) +
+    outerHeight(cmpCard) +
+    outerHeight(notesCard);
+
+  const row2Chrome = Math.max(0, outerHeight(row2Card) - row2Wrap.getBoundingClientRect().height);
+  const trendChrome = Math.max(0, outerHeight(trendCard) - trendWrap.getBoundingClientRect().height);
+  const available = Math.max(320, PRINT_INNER_H_PX - fixedHeight);
+
+  let row2CanvasH = Math.max(120, Math.floor(available * 0.38) - row2Chrome);
+  let trendCanvasH = Math.max(150, available - (row2CanvasH + row2Chrome) - trendChrome);
+
+  applyPrintCanvasHeights(po, row2CanvasH, trendCanvasH);
+
+  for(let i=0; i<12 && po.scrollHeight > PRINT_INNER_H_PX; i++){
+    row2CanvasH = Math.max(108, row2CanvasH - 6);
+    trendCanvasH = Math.max(132, trendCanvasH - 10);
+    applyPrintCanvasHeights(po, row2CanvasH, trendCanvasH);
+  }
+}
+function buildPrintPreview(){
+  cleanupPrintLayout();
+  document.body.classList.add('print-prepping');
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = buildPrintLayout();
+  document.body.appendChild(wrapper.firstElementChild);
+  const po = document.getElementById('print-only');
+  if(po){
+    po.style.width = `${PRINT_INNER_W_PX}px`;
+    po.style.minHeight = `${PRINT_INNER_H_PX}px`;
+    po.style.maxHeight = `${PRINT_INNER_H_PX}px`;
+    po.style.overflow = 'hidden';
+  }
+  return po;
 }
 
+function pKV(bg, label, val, sub){
+  return `<div class="pkc" style="background:${bg}">
+    <div class="pkl">${label}</div>
+    <div class="pkv">${val}</div>
+    <div class="pks">${sub}</div>
+  </div>`;
+}
+function pHbars(rows, key, color, max){
+  const mx = max || Math.max(...rows.map(r=>parseFloat(r[key])||0))*1.15||10;
+  return rows.map(r=>{
+    const v = parseFloat(r[key])||0;
+    const pct = Math.min(100,(v/mx)*100).toFixed(1);
+    return `<div class="phbr">
+      <div class="phbl" title="${r.n}">${r.n}</div>
+      <div class="phbt"><div class="phbf" style="width:${pct}%;background:${color};">${v.toFixed(2)}</div></div>
+    </div>`;
+  }).join('');
+}
+function pDiff(val, flipBad){
+  const n = parseFloat(val);
+  const bad = flipBad ? n>0 : n<0;
+  return `<span class="${bad?'neg':'pos'}">${n>0?'+':''}${n.toFixed(2)}</span>`;
+}
+function pPct(val, flipBad){
+  const n = parseFloat(val);
+  const bad = flipBad ? n>0 : n<0;
+  return `<span class="${bad?'neg':'pos'}">${n>0?'+':''}${n.toFixed(2)} %</span>`;
+}
+
+function buildPrintLayout(){
+  // ── อ่านค่าปัจจุบันจาก dashboard ──
+  const branch  = $('r-branch')?.textContent||'';
+  const period  = $('r-sub')?.textContent||'';
+  const yA = $('fb-yA')?.textContent||'';
+  const yB = $('fb-yB')?.textContent||'';
+  const mA = $('fb-mA')?.textContent||'';
+  const mB = $('fb-mB')?.textContent||'';
+  const rA = parseFloat($('kv-rA')?.textContent)||0;
+  const dA = parseFloat($('kv-dA')?.textContent)||0;
+  const rB = parseFloat($('kv-rB')?.textContent)||0;
+  const dB = parseFloat($('kv-dB')?.textContent)||0;
+  const labA = $('lab-a')?.textContent||'';
+  const labB = $('lab-b')?.textContent||'';
+  const dR = rB-rA, dD = dB-dA;
+  const pR = rA?dR/rA*100:0, pD = dA?dD/dA*100:0;
+  const cats = getTbl('cat-rows',['n','rB','dB','rA','dA']).sort((a,b)=>parseFloat(b.dA)-parseFloat(a.dA));
+  const mxR = Math.max(...cats.map(c=>Math.max(parseFloat(c.rA)||0,parseFloat(c.rB)||0)))*1.15;
+  const mxD = Math.max(...cats.map(c=>Math.max(parseFloat(c.dA)||0,parseFloat(c.dB)||0)))*1.15;
+  const ops    = $('r-ops')?.textContent||'';
+  const issues = $('r-issues')?.textContent||'';
+
+  // ── Waterfall mini ──
+  const mxWF = Math.max(Math.abs(dR),Math.abs(dD),1);
+  const hR = Math.abs(dR/mxWF*36).toFixed(0);
+  const hD = Math.abs(dD/mxWF*36).toFixed(0);
+  const cR = dR<0?'#c62828':'#1976d2';
+  const cD = dD>0?'#c62828':'#1976d2';
+
+  // ── เก็บ chart data ──
+  const yn5=$('yn5')?.value||'', yn4=$('yn4')?.value||'', yn3=$('yn3')?.value||'', yn2=$('yn2')?.value||'', yn1=$('yn1')?.value||'';
+  const {pA,gA,pB,gB} = calcPrivGovt();
+  const mos = getTbl('mo-rows',['m','prev','cur']);
+  const trs = getTbl('tr-rows',['m','y5','y4','y3','y2','y1']);
+  const C5 = ['#26a69a','#ef9a9a','#9c27b0','#e67e22','#1976d2'];
+  const tyrs = [yn5,yn4,yn3,yn2,yn1];
+
+  return `
+  <div id="print-only">
+    <!-- HEADER -->
+    <div class="ph">
+      <div>
+        <div class="ph-t">Operation Dashboard : ข้อมูลเปรียบเทียบหนี้ค้าง</div>
+        <div class="ph-s">${period}</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:9px;font-weight:800;">${branch}</div>
+        <div class="ph-s">${period}</div>
+      </div>
+    </div>
+    <!-- FILTER BAR -->
+    <div class="pfbar">
+      <div><div class="pfl">ปีงบประมาณ B</div><div class="pfv">${yB}</div></div>
+      <div class="pfbar-sep"></div>
+      <div><div class="pfl">เดือน B</div><div class="pfv">${mB}</div></div>
+      <div style="flex:1"></div>
+      <div><div class="pfl">ปีงบประมาณ A</div><div class="pfv">${yA}</div></div>
+      <div class="pfbar-sep"></div>
+      <div><div class="pfl">เดือน A</div><div class="pfv">${mA}</div></div>
+    </div>
+
+    <!-- ROW 1: CMP CARD -->
+    <div class="pcard pcmpcard">
+      <div class="pch">ข้อมูลหนี้ค้างชำระ ทุกประเภท</div>
+      <div class="pcb">
+        <div class="pcmp">
+          <!-- Period B -->
+          <div>
+            <div class="psl" style="text-align:center;color:#607d8b;">${labB}</div>
+            <div class="pkpair">
+              ${pKV('#1976d2','รายได้ค่าน้ำทั้งหมด',rB.toFixed(2),'Revenue Period B')}
+              ${pKV('#e53935','ค่าน้ำค้างชำระทั้งหมด',dB.toFixed(2),'Debt Period B')}
+            </div>
+            <div class="psl">รายได้ค่าน้ำ (ล้านบาท)</div>
+            ${pHbars(cats,'rB','#1976d2',mxR)}
+            <div class="psl" style="margin-top:4px;">ค่าน้ำค้างชำระ (ล้านบาท)</div>
+            ${pHbars(cats,'dB','#e53935',mxD)}
+          </div>
+          <!-- Diff -->
+          <div class="pdcol">
+            <div><div class="pdl">ผลต่างรายได้ (B - A)</div><div class="pdv">${pDiff(dR,false)}</div></div>
+            <div><div class="pdl">ผลต่างหนี้ค้าง (B - A)</div><div class="pdv">${pDiff(dD,true)}</div></div>
+            <div><div class="pdl">% ผลต่างรายได้ (B - A)</div><div class="pdpct">${pPct(pR,false)}</div></div>
+            <div><div class="pdl">% ผลต่างหนี้ค้าง (B - A)</div><div class="pdpct">${pPct(pD,true)}</div></div>
+            <div>
+              <div class="pdl" style="margin-bottom:2px;">ผลต่างรายได้เทียบหนี้ค้าง (B - A)</div>
+              <div style="display:flex;gap:6px;justify-content:center;align-items:flex-end;">
+                <div style="text-align:center;">
+                  <div style="font-size:7px;color:#607d8b;">รายได้</div>
+                  <div style="width:18px;background:${cR};height:${hR}px;border-radius:2px;margin:1px auto;min-height:3px;"></div>
+                  <div style="font-size:7px;color:${cR};font-family:'Courier New',monospace;">${dR>0?'+':''}${dR.toFixed(2)}</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:7px;color:#607d8b;">หนี้ค้าง</div>
+                  <div style="width:18px;background:${cD};height:${hD}px;border-radius:2px;margin:1px auto;min-height:3px;"></div>
+                  <div style="font-size:7px;color:${cD};font-family:'Courier New',monospace;">${dD>0?'+':''}${dD.toFixed(2)}</div>
+                </div>
+              </div>
+            </div>
+            <div class="pdnote">B = ปีปัจจุบัน<br>A = ปีก่อน</div>
+          </div>
+          <!-- Period A -->
+          <div>
+            <div class="psl" style="text-align:center;color:#607d8b;">${labA}</div>
+            <div class="pkpair">
+              ${pKV('#546e7a','รายได้ค่าน้ำทั้งหมด',rA.toFixed(2),'Revenue Period A')}
+              ${pKV('#e67e22','ค่าน้ำค้างชำระทั้งหมด',dA.toFixed(2),'Debt Period A')}
+            </div>
+            <div class="psl">รายได้ค่าน้ำ (ล้านบาท)</div>
+            ${pHbars(cats,'rA','#546e7a',mxR)}
+            <div class="psl" style="margin-top:4px;">ค่าน้ำค้างชำระ (ล้านบาท)</div>
+            ${pHbars(cats,'dA','#e67e22',mxD)}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 2: 2 charts -->
+    <div class="pg2 prow2">
+      <div class="pcard">
+        <div class="pch">จำนวนค่าน้ำค้างชำระ (ล้านบาท) เทียบปีก่อน</div>
+        <div class="pcb">
+          <div class="pchw" style="min-height:95px;"><canvas id="pc-yr"></canvas></div>
+          <div class="pleg">
+            <div class="plegitem"><div class="plegdot" style="background:#ef9a9a;"></div>เอกชน</div>
+            <div class="plegitem"><div class="plegdot" style="background:#1976d2;"></div>ราชการ</div>
+          </div>
+        </div>
+      </div>
+      <div class="pcard">
+        <div class="pch">จำนวนค่าน้ำค้างชำระ (ล้านบาท) รายเดือนเทียบปีก่อน</div>
+        <div class="pcb">
+          <div class="pchw" style="min-height:95px;"><canvas id="pc-mo"></canvas></div>
+          <div class="pleg">
+            <div class="plegitem"><div class="plegdot" style="background:#ef9a9a;"></div>ปีก่อน (${yA})</div>
+            <div class="plegitem"><div class="plegdot" style="background:#1976d2;"></div>ปีปัจจุบัน (${yB})</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 3: Trend -->
+    <div class="pcard ptrendcard">
+      <div class="pch">จำนวนค่าน้ำค้างชำระ (ล้านบาท) รายเดือน 5 ปีย้อนหลัง</div>
+      <div class="pcb">
+        <div class="pchw" style="min-height:100px;"><canvas id="pc-trend"></canvas></div>
+        <div class="pleg">
+          ${tyrs.map((y,i)=>`<div class="plegitem"><div class="plegdot" style="background:${C5[i]};"></div>${y}</div>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    ${(ops||issues)?`
+    <!-- ROW 4: Notes -->
+    <div class="pcard pnotescard">
+      <div class="pch">📝 การดำเนินงานและปัญหาอุปสรรค</div>
+      <div class="pcb">
+        <div class="pg2">
+          <div>
+            <div class="psl" style="color:#607d8b;">การดำเนินงาน</div>
+            <div class="pntxt" style="background:#f5f6f8;border:1px solid #eceff1;">${ops||'—'}</div>
+          </div>
+          <div>
+            <div class="psl" style="color:#607d8b;">ปัญหาและอุปสรรค</div>
+            <div class="pntxt" style="background:#fff8f8;border:1px solid #ffcdd2;">${issues||'—'}</div>
+          </div>
+        </div>
+      </div>
+    </div>`:''}
+  </div>
+  `;
+}
+
+function buildPrintCharts(){
+  destroyPrintCharts();
+  const CB2={
+    responsive:true,
+    maintainAspectRatio:false,
+    animation:false,  // ปิด animation ทั้งหมด เพื่อให้ render ทันก่อน print
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{ticks:{color:'#607d8b',font:{size:7}},grid:{display:false}},
+      y:{ticks:{color:'#607d8b',font:{size:7}},grid:{color:'rgba(0,0,0,.05)'}}
+    }
+  };
+  const C5=['#26a69a','#ef9a9a','#9c27b0','#e67e22','#1976d2'];
+  const yA=$('fb-yA')?.textContent||'';
+  const yB=$('fb-yB')?.textContent||'';
+  const {pA,gA,pB,gB} = calcPrivGovt();
+  const mos = getTbl('mo-rows',['m','prev','cur']);
+  const trs = getTbl('tr-rows',['m','y5','y4','y3','y2','y1']);
+  const tyrs=[$('yn5')?.value,$('yn4')?.value,$('yn3')?.value,$('yn2')?.value,$('yn1')?.value];
+  const tkeys=['y5','y4','y3','y2','y1'];
+
+  const pyr=document.getElementById('pc-yr');
+  if(pyr) printCharts.push(new Chart(pyr,{
+    type:'bar',
+    data:{labels:[yA,yB],datasets:[
+      {label:'เอกชน',data:[pA,pB],backgroundColor:'#ef9a9a',borderRadius:4},
+      {label:'ราชการ',data:[gA,gB],backgroundColor:'#1976d2',borderRadius:4}
+    ]},
+    plugins:[barValueLabelsPlugin],
+    options:{...CB2,plugins:{legend:{display:false},...barLabelOptions(7)}}
+  }));
+
+  const pmo=document.getElementById('pc-mo');
+  if(pmo) printCharts.push(new Chart(pmo,{
+    type:'bar',
+    data:{labels:mos.map(m=>m.m),datasets:[
+      {label:'ปีก่อน',data:mos.map(m=>parseFloat(m.prev)||0),backgroundColor:'rgba(239,154,154,.75)',borderRadius:3},
+      {label:'ปีปัจจุบัน',data:mos.map(m=>parseFloat(m.cur)||0),backgroundColor:'rgba(25,118,210,.75)',borderRadius:3}
+    ]},
+    plugins:[barValueLabelsPlugin],
+    options:{...CB2,plugins:{legend:{display:false},...monthlyBarLabelOptions(6)}}
+  }));
+
+  const ptr=document.getElementById('pc-trend');
+  if(ptr) printCharts.push(new Chart(ptr,{
+    type:'line',
+    data:{
+      labels:trs.map(r=>r.m),
+      datasets:tkeys.map((k,i)=>({
+        label:tyrs[i],
+        data:trs.map(r=>parseFloat(r[k])||null),
+        borderColor:C5[i],backgroundColor:'transparent',
+        tension:.3,pointRadius:2,borderWidth:1.5
+      }))
+    },
+    plugins:[pointValueLabelsPlugin],
+    options:{...CB2,
+      interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},...trendLabelOptions(7)},
+      scales:{
+        x:{ticks:{color:'#607d8b',font:{size:7}},grid:{color:'rgba(0,0,0,.04)'}},
+        y:{ticks:{color:'#607d8b',font:{size:7}},
+           grid:{color:'rgba(0,0,0,.06)'},
+           title:{display:true,text:'ล้านบาท',color:'#90a4ae',font:{size:7}}}
+      }
+    }
+  }));
+}
+
+async function openPrintDialog(mode='pdf'){
+  const ov=$('ov');ov.style.display='flex';
+  setPrintOverlay(mode,'กำลังสร้าง Print Layout...','รอสักครู่');
+  await wait(100);
+
+  try{
+    Object.values(charts).forEach(c=>{if(c){c.options.animation=false;c.update('none');}});
+
+    const po = buildPrintPreview();
+    await nextFrame();
+    await nextFrame();
+    fitPrintLayout(po);
+    await nextFrame();
+
+    const canvases = ['pc-yr','pc-mo','pc-trend'];
+    const missing = canvases.filter(id=>!document.getElementById(id));
+    if(missing.length > 0) console.warn('Missing canvas:', missing);
+
+    buildPrintCharts();
+
+    setPrintOverlay(mode,'กำลัง render charts...','รอสักครู่');
+    await document.fonts.ready;
+    await wait(700);
+    await nextFrame();
+
+    setPrintOverlay(
+      mode,
+      '🖨️ กำลังเปิด Print Dialog...',
+      mode === 'print' ? 'เลือกเครื่องพิมพ์ หรือ Save as PDF' : 'เลือก Save as PDF แล้วกด Save'
+    );
+    await wait(200);
+
+    ov.style.display='none';
+    window.print();
+    await wait(500);
+  } finally {
+    cleanupPrintLayout();
+    Object.values(charts).forEach(c=>{if(c)c.options.animation={duration:600};});
+    ov.style.display='none';
+  }
+}
+function printReport(){ return openPrintDialog('print'); }
+function exportPDF(){ return openPrintDialog('pdf'); }
+
 window.addEventListener('beforeprint',()=>{Object.values(charts).forEach(c=>{if(c){c.options.animation=false;c.update('none');}});});
-window.addEventListener('afterprint',()=>{Object.values(charts).forEach(c=>{if(c)c.options.animation={duration:600};});});
+window.addEventListener('afterprint',()=>{
+  cleanupPrintLayout();
+  Object.values(charts).forEach(c=>{if(c)c.options.animation={duration:600};});
+});
 
 // คำนวณ เอกชน/ราชการ — setTimeout(0) เพื่อให้ DOM และ script พร้อมก่อน
 setTimeout(recalcPrivGovt, 0);
@@ -1019,6 +1635,7 @@ function bmRestore(d){
   }
 
   recalcPrivGovt();
+  syncKPI();
 }
 
 // ─ SAVE ─
@@ -1072,6 +1689,7 @@ function bmDelete(){
 
 // ─ Init: โหลดรายการสาขาตอนเปิดหน้า ─
 bmRefreshList();
+syncKPI();
 
 // ═══════════════════════════════════════════════════════════
 // RESET & BANNER
@@ -1122,6 +1740,7 @@ function resetForm(){
   $('bm-select').value = '';
 
   recalcPrivGovt();
+  syncKPI();
   dismissBanner();
   bmToast('🔄 Reset เรียบร้อย — พร้อมกรอกข้อมูลใหม่', '#1565c0');
 }
