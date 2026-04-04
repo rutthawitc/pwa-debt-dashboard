@@ -106,13 +106,37 @@ input[type=number]{font-family:var(--mono);font-size:12px;}
 .kl{font-size:10px;opacity:.85;font-weight:600;}
 .kv{font-family:var(--mono);font-size:22px;font-weight:600;margin:3px 0;line-height:1;}
 .ks{font-size:10px;opacity:.8;}
-.cmp{display:grid;grid-template-columns:1fr 100px 1fr;gap:8px;align-items:stretch;}
-.dcol{display:flex;flex-direction:column;align-items:center;justify-content:space-around;padding:8px;background:var(--g1);border-radius:6px;border:1px solid var(--g2);}
-.dl{font-size:9px;color:var(--muted);font-weight:700;text-align:center;}
-.dv{font-family:var(--mono);font-size:17px;font-weight:700;text-align:center;}
-.dpct{font-family:var(--mono);font-size:12px;font-weight:700;text-align:center;}
-.dnote{margin-top:6px;font-size:9px;line-height:1.45;color:#607d8b;font-weight:700;text-align:center;}
-.pos{color:var(--blue2);}
+.cmp{display:grid;grid-template-columns:1fr 220px 1fr;gap:12px;align-items:stretch;}
+.dcol{display:flex;flex-direction:column;gap:10px;padding:12px 10px;background:linear-gradient(180deg,#fafbfc,#f3f6f9);border-radius:10px;border:1px solid #dfe6ee;box-shadow:inset 0 1px 0 rgba(255,255,255,.7);}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;}
+.dstat{background:#fff;border:1px solid #e4eaf0;border-radius:10px;padding:10px 6px 8px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.dl{font-size:9px;color:#455a64;font-weight:800;text-align:center;line-height:1.25;}
+.dsub{margin-top:3px;font-size:7.5px;color:#90a4ae;font-weight:700;line-height:1.2;}
+.dv,.dpct{font-family:var(--mono);font-weight:800;text-align:center;letter-spacing:-.4px;line-height:1;}
+.dv{font-size:25px;margin-top:6px;}
+.dpct{font-size:23px;margin-top:6px;}
+.dchart{width:100%;background:#fff;border:1px solid #e4eaf0;border-radius:10px;padding:8px 8px 6px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.dchart-title{font-size:10px;color:#37474f;font-weight:800;line-height:1.25;margin-bottom:6px;text-align:left;}
+.wfbox{display:grid;grid-template-columns:28px 1fr;gap:8px;align-items:stretch;}
+.wfaxis{display:flex;flex-direction:column;justify-content:space-between;font-size:8px;color:#90a4ae;font-weight:700;padding:4px 0;}
+.wfplot{position:relative;height:122px;border-radius:8px;background:
+  repeating-linear-gradient(to bottom, rgba(144,164,174,.18) 0, rgba(144,164,174,.18) 1px, transparent 1px, transparent 25%);}
+.wfzero{position:absolute;left:0;right:0;border-top:1px dashed rgba(84,110,122,.35);}
+.wfbars{position:absolute;inset:0;padding:8px 12px 20px;display:flex;align-items:stretch;justify-content:center;gap:18px;}
+.wfitem{position:relative;display:flex;align-items:stretch;justify-content:center;width:44px;height:100%;}
+.wfbar{position:absolute;left:0;right:0;border-radius:6px 6px 4px 4px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;box-shadow:0 3px 8px rgba(25,118,210,.18);}
+.wfbar.rev{background:#1e88e5;}
+.wfbar.debt{background:#3949ab;}
+.wfbar-label{font-size:8px;line-height:1;writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.2px;}
+.wfvalue{position:absolute;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:8px;font-weight:800;white-space:nowrap;}
+.wfvalue.above{top:-16px;}
+.wfvalue.below{bottom:-16px;}
+.wfcats{display:flex;justify-content:center;gap:18px;margin-top:4px;padding-left:36px;}
+.wfcat{width:44px;text-align:center;font-size:8px;color:#546e7a;font-weight:800;line-height:1.2;}
+.wfleg{display:flex;justify-content:center;gap:10px;margin-top:6px;flex-wrap:wrap;}
+.wfleg .leg{font-size:8px;}
+.dnote{font-size:9px;line-height:1.45;color:#607d8b;font-weight:800;text-align:center;}
+.pos{color:#2e7d32;}
 .neg{color:#c62828;}
 .hbr{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
 .hbl{font-size:10.5px;min-width:70px;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -203,7 +227,7 @@ body.print-prepping #print-only{
 }
 #print-only .pcb{ padding:6px 8px; }
 #print-only .pcmp{
-  display:grid;grid-template-columns:1fr 82px 1fr;gap:5px;
+  display:grid;grid-template-columns:1fr 156px 1fr;gap:6px;
 }
 #print-only .pkpair{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:5px;}
 #print-only .pkc{border-radius:4px;padding:4px 7px;color:#fff;}
@@ -211,14 +235,33 @@ body.print-prepping #print-only{
 #print-only .pkl{font-size:7px;opacity:.85;}
 #print-only .pks{font-size:7px;opacity:.8;}
 #print-only .pdcol{
-  background:#f5f6f8;border:1px solid #eceff1;border-radius:4px;
-  display:flex;flex-direction:column;align-items:center;justify-content:space-around;
-  padding:4px;text-align:center;
+  background:linear-gradient(180deg,#fafbfc,#f3f6f9);border:1px solid #dfe6ee;border-radius:6px;
+  display:flex;flex-direction:column;gap:5px;padding:5px;text-align:center;
 }
-#print-only .pdl{font-size:7px;color:#607d8b;font-weight:700;}
-#print-only .pdv{font-size:12px;font-weight:800;font-family:'Courier New',monospace;}
-#print-only .pdpct{font-size:9px;font-weight:800;font-family:'Courier New',monospace;}
-#print-only .pdnote{margin-top:3px;font-size:6.5px;line-height:1.35;color:#78909c;font-weight:700;text-align:center;}
+#print-only .pdgrid{display:grid;grid-template-columns:1fr 1fr;gap:4px;width:100%;}
+#print-only .pdstat{background:#fff;border:1px solid #e4eaf0;border-radius:6px;padding:5px 4px 4px;box-shadow:0 1px 2px rgba(0,0,0,.04);}
+#print-only .pdl{font-size:6.4px;color:#455a64;font-weight:800;line-height:1.2;}
+#print-only .pdsub{margin-top:2px;font-size:5.6px;color:#90a4ae;font-weight:700;line-height:1.15;}
+#print-only .pdv,#print-only .pdpct{font-weight:800;font-family:'Courier New',monospace;line-height:1;letter-spacing:-.3px;}
+#print-only .pdv{font-size:15px;margin-top:4px;}
+#print-only .pdpct{font-size:13px;margin-top:4px;}
+#print-only .pdchart{width:100%;background:#fff;border:1px solid #e4eaf0;border-radius:6px;padding:5px 5px 4px;box-shadow:0 1px 2px rgba(0,0,0,.04);}
+#print-only .pdchart-title{font-size:6.6px;color:#37474f;font-weight:800;line-height:1.2;margin-bottom:4px;text-align:left;}
+#print-only .wfbox{grid-template-columns:20px 1fr;gap:5px;}
+#print-only .wfaxis{font-size:5.8px;padding:2px 0;}
+#print-only .wfplot{height:72px;border-radius:5px;}
+#print-only .wfbars{padding:5px 8px 14px;gap:10px;}
+#print-only .wfitem{width:24px;}
+#print-only .wfbar{border-radius:4px 4px 3px 3px;}
+#print-only .wfbar-label{font-size:5.8px;}
+#print-only .wfvalue{font-size:5.8px;}
+#print-only .wfvalue.above{top:-11px;}
+#print-only .wfvalue.below{bottom:-11px;}
+#print-only .wfcats{gap:10px;margin-top:2px;padding-left:25px;}
+#print-only .wfcat{width:24px;font-size:5.8px;}
+#print-only .wfleg{gap:7px;margin-top:4px;}
+#print-only .wfleg .leg{font-size:5.8px;}
+#print-only .pdnote{font-size:6.1px;line-height:1.3;color:#78909c;font-weight:800;text-align:center;}
 #print-only .phbr{display:flex;align-items:center;gap:5px;margin-bottom:2px;}
 #print-only .phbl{font-size:7.5px;min-width:58px;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 #print-only .phbt{flex:1;background:#eceff1;border-radius:2px;height:11px;overflow:hidden;}
@@ -231,7 +274,7 @@ body.print-prepping #print-only{
 #print-only .plegitem{display:flex;align-items:center;gap:3px;font-size:7.5px;color:#607d8b;}
 #print-only .plegdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
 #print-only .pntxt{font-size:8px;line-height:1.7;white-space:pre-wrap;padding:5px 7px;border-radius:4px;min-height:16px;}
-#print-only .pos{color:#1976d2;}
+#print-only .pos{color:#2e7d32;}
 #print-only .neg{color:#c62828;}
 
 @media print{
@@ -330,18 +373,18 @@ body.print-prepping #print-only{
             </select>
           </div>
           <div class="fld"><label>เขต</label><input id="f_region" value="กปภ.เขต 6"></div>
-          <div class="fld"><label>ปีงบประมาณ B (ปีปัจจุบัน)</label><input type="number" id="f_yB" value="2569"></div>
-          <div class="fld"><label>ปีงบประมาณ A (ปีก่อน)</label><input type="number" id="f_yA" value="2568"></div>
-          <div class="fld"><label>เดือน B (ปัจจุบัน)</label>
-            <select id="f_mB">
+          <div class="fld"><label>ปีงบประมาณ A (ปีปัจจุบัน)</label><input type="number" id="f_yA" value="2569"></div>
+          <div class="fld"><label>ปีงบประมาณ B (ปีก่อน)</label><input type="number" id="f_yB" value="2568"></div>
+          <div class="fld"><label>เดือน A (ปีปัจจุบัน)</label>
+            <select id="f_mA">
               <option>ตุลาคม</option><option>พฤศจิกายน</option><option>ธันวาคม</option>
               <option>มกราคม</option><option>กุมภาพันธ์</option><option selected>มีนาคม</option>
               <option>เมษายน</option><option>พฤษภาคม</option><option>มิถุนายน</option>
               <option>กรกฎาคม</option><option>สิงหาคม</option><option>กันยายน</option>
             </select>
           </div>
-          <div class="fld"><label>เดือน A (ก่อน)</label>
-            <select id="f_mA">
+          <div class="fld"><label>เดือน B (ปีก่อน)</label>
+            <select id="f_mB">
               <option>ตุลาคม</option><option>พฤศจิกายน</option><option>ธันวาคม</option>
               <option>มกราคม</option><option>กุมภาพันธ์</option><option>มีนาคม</option>
               <option>เมษายน</option><option>พฤษภาคม</option><option>มิถุนายน</option>
@@ -356,7 +399,7 @@ body.print-prepping #print-only{
       <div class="fsh">👥 หนี้ค้างแยกประเภท (ล้านบาท)</div>
       <div class="fsb">
         <table class="mtbl">
-          <thead><tr><th>ประเภท</th><th>รายได้ B</th><th>หนี้ค้าง B</th><th>รายได้ A</th><th>หนี้ค้าง A</th></tr></thead>
+          <thead><tr><th>ประเภท</th><th>รายได้ A (ปีปัจจุบัน)</th><th>หนี้ค้าง A (ปีปัจจุบัน)</th><th>รายได้ B (ปีก่อน)</th><th>หนี้ค้าง B (ปีก่อน)</th></tr></thead>
           <tbody id="cat-rows" oninput="syncKPI()">
             <tr><td><input value="ที่พักอาศัย"></td><td><input type="number" value="32.33" step="0.01"></td><td><input type="number" value="6.33" step="0.01"></td><td><input type="number" value="31.00" step="0.01"></td><td><input type="number" value="6.86" step="0.01"></td></tr>
             <tr><td><input value="ธุรกิจขนาดเล็ก"></td><td><input type="number" value="13.04" step="0.01"></td><td><input type="number" value="2.50" step="0.01"></td><td><input type="number" value="12.54" step="0.01"></td><td><input type="number" value="2.59" step="0.01"></td></tr>
@@ -372,10 +415,10 @@ body.print-prepping #print-only{
       <div class="fsh">💰 KPI หลัก (ล้านบาท)</div>
       <div class="fsb">
         <div class="fg fg4">
-          <div class="fld"><label>รายได้น้ำ ปี B (ปัจจุบัน)</label><input type="number" id="f_rB" step="0.01" readonly class="kpi-auto"></div>
-          <div class="fld"><label>หนี้ค้าง ปี B (ปัจจุบัน)</label><input type="number" id="f_dB" step="0.01" readonly class="kpi-auto"></div>
-          <div class="fld"><label>รายได้น้ำ ปี A (ก่อน)</label><input type="number" id="f_rA" step="0.01" readonly class="kpi-auto"></div>
-          <div class="fld"><label>หนี้ค้าง ปี A (ก่อน)</label><input type="number" id="f_dA" step="0.01" readonly class="kpi-auto"></div>
+          <div class="fld"><label>รายได้น้ำ ปี A (ปีปัจจุบัน)</label><input type="number" id="f_rA" step="0.01" readonly class="kpi-auto"></div>
+          <div class="fld"><label>หนี้ค้าง ปี A (ปีปัจจุบัน)</label><input type="number" id="f_dA" step="0.01" readonly class="kpi-auto"></div>
+          <div class="fld"><label>รายได้น้ำ ปี B (ปีก่อน)</label><input type="number" id="f_rB" step="0.01" readonly class="kpi-auto"></div>
+          <div class="fld"><label>หนี้ค้าง ปี B (ปีก่อน)</label><input type="number" id="f_dB" step="0.01" readonly class="kpi-auto"></div>
         </div>
       </div>
     </div>
@@ -415,14 +458,14 @@ body.print-prepping #print-only{
           <span style="font-size:12px;color:#e65100;">นำเข้าจาก xlsx ได้ที่ section <strong>📈 แนวโน้ม 5 ปีย้อนหลัง</strong> ด้านล่าง — ระบบจะเติมข้อมูลรายเดือนนี้ให้อัตโนมัติ</span>
         </div>
         <table class="mtbl">
-          <thead><tr><th>เดือน</th><th id="mo-hdr-prev">ปีก่อน</th><th id="mo-hdr-cur">ปีนี้</th></tr></thead>
+          <thead><tr><th>เดือน</th><th id="mo-hdr-cur">ปีนี้</th><th id="mo-hdr-prev">ปีก่อน</th></tr></thead>
           <tbody id="mo-rows">
-            <tr><td><input value="ต.ค."></td><td><input type="number" value="19.96" step="0.01"></td><td><input type="number" value="18.47" step="0.01"></td></tr>
-            <tr><td><input value="พ.ย."></td><td><input type="number" value="20.46" step="0.01"></td><td><input type="number" value="21.03" step="0.01"></td></tr>
-            <tr><td><input value="ธ.ค."></td><td><input type="number" value="21.26" step="0.01"></td><td><input type="number" value="19.84" step="0.01"></td></tr>
-            <tr><td><input value="ม.ค."></td><td><input type="number" value="18.85" step="0.01"></td><td><input type="number" value="20.66" step="0.01"></td></tr>
-            <tr><td><input value="ก.พ."></td><td><input type="number" value="22.12" step="0.01"></td><td><input type="number" value="21.53" step="0.01"></td></tr>
-            <tr><td><input value="มี.ค."></td><td><input type="number" value="18.71" step="0.01"></td><td><input type="number" value="21.93" step="0.01"></td></tr>
+            <tr><td><input value="ต.ค."></td><td><input type="number" value="18.47" step="0.01"></td><td><input type="number" value="19.96" step="0.01"></td></tr>
+            <tr><td><input value="พ.ย."></td><td><input type="number" value="21.03" step="0.01"></td><td><input type="number" value="20.46" step="0.01"></td></tr>
+            <tr><td><input value="ธ.ค."></td><td><input type="number" value="19.84" step="0.01"></td><td><input type="number" value="21.26" step="0.01"></td></tr>
+            <tr><td><input value="ม.ค."></td><td><input type="number" value="20.66" step="0.01"></td><td><input type="number" value="18.85" step="0.01"></td></tr>
+            <tr><td><input value="ก.พ."></td><td><input type="number" value="21.53" step="0.01"></td><td><input type="number" value="22.12" step="0.01"></td></tr>
+            <tr><td><input value="มี.ค."></td><td><input type="number" value="21.93" step="0.01"></td><td><input type="number" value="18.71" step="0.01"></td></tr>
           </tbody>
         </table>
         <button class="add-btn" onclick="addMo()">+ เพิ่มเดือน</button>
@@ -523,13 +566,13 @@ body.print-prepping #print-only{
     </div>
     <!-- Filter bar -->
     <div class="fbar">
-      <div><div class="fl">ปีงบประมาณ B</div><div class="fv" id="fb-yB">—</div></div>
-      <div class="sep"></div>
-      <div><div class="fl">เดือน B</div><div class="fv" id="fb-mB">—</div></div>
-      <div class="sp"></div>
-      <div><div class="fl">ปีงบประมาณ A</div><div class="fv" id="fb-yA">—</div></div>
+      <div><div class="fl">ปีงบประมาณ A (ปีปัจจุบัน)</div><div class="fv" id="fb-yA">—</div></div>
       <div class="sep"></div>
       <div><div class="fl">เดือน A</div><div class="fv" id="fb-mA">—</div></div>
+      <div class="sp"></div>
+      <div><div class="fl">ปีงบประมาณ B (ปีก่อน)</div><div class="fv" id="fb-yB">—</div></div>
+      <div class="sep"></div>
+      <div><div class="fl">เดือน B</div><div class="fv" id="fb-mB">—</div></div>
     </div>
     <div class="sg"></div>
 
@@ -538,25 +581,6 @@ body.print-prepping #print-only{
       <div class="ch">ข้อมูลหนี้ค้างชำระ ทุกประเภท</div>
       <div class="cb">
         <div class="cmp">
-          <div>
-            <div class="sec-lbl" style="font-size:10px;font-weight:800;color:var(--muted);text-align:center;margin-bottom:6px;" id="lab-b">—</div>
-            <div class="kpi-pair">
-              <div class="kc rb"><div class="kl">รายได้ค่าน้ำทั้งหมด</div><div class="kv" id="kv-rB">—</div><div class="ks">Revenue Period B</div></div>
-              <div class="kc db"><div class="kl">ค่าน้ำค้างชำระทั้งหมด</div><div class="kv" id="kv-dB">—</div><div class="ks">Debt Period B</div></div>
-            </div>
-            <div style="font-size:10px;font-weight:800;margin-bottom:4px;" class="sec-lbl">รายได้ค่าน้ำ (ล้านบาท)</div>
-            <div id="hb-rB"></div>
-            <div style="font-size:10px;font-weight:800;margin:4px 0;" class="sec-lbl">ค่าน้ำค้างชำระ (ล้านบาท)</div>
-            <div id="hb-dB"></div>
-          </div>
-          <div class="dcol">
-            <div><div class="dl">ผลต่างรายได้ค่าน้ำ (B - A)</div><div class="dv" id="d-r">—</div></div>
-            <div><div class="dl">ผลต่างค่าน้ำค้างชำระ (B - A)</div><div class="dv" id="d-d">—</div></div>
-            <div><div class="dl">% ผลต่างรายได้ (B - A)</div><div class="dpct" id="dp-r">—</div></div>
-            <div><div class="dl">% ผลต่างค่าน้ำค้าง (B - A)</div><div class="dpct" id="dp-d">—</div></div>
-            <div><div class="dl" style="margin-bottom:3px;">ผลต่างรายได้เทียบหนี้ค้าง (B - A)</div><div id="wf"></div></div>
-            <div class="dnote">B = ปีปัจจุบัน<br>A = ปีก่อน</div>
-          </div>
           <div>
             <div class="sec-lbl" style="font-size:10px;font-weight:800;color:var(--muted);text-align:center;margin-bottom:6px;" id="lab-a">—</div>
             <div class="kpi-pair">
@@ -568,13 +592,53 @@ body.print-prepping #print-only{
             <div style="font-size:10px;font-weight:800;margin:4px 0;" class="sec-lbl">ค่าน้ำค้างชำระ (ล้านบาท)</div>
             <div id="hb-dA"></div>
           </div>
+          <div class="dcol">
+            <div class="dgrid">
+              <div class="dstat">
+                <div class="dl">ผลต่างรายได้ค่าน้ำ</div>
+                <div class="dv" id="d-r">—</div>
+                <div class="dsub">Diff Revenue period A-B</div>
+              </div>
+              <div class="dstat">
+                <div class="dl">ผลต่างค่าน้ำค้างชำระ</div>
+                <div class="dv" id="d-d">—</div>
+                <div class="dsub">Diff Debt period A-B</div>
+              </div>
+              <div class="dstat">
+                <div class="dl">% ผลต่างรายได้</div>
+                <div class="dpct" id="dp-r">—</div>
+                <div class="dsub">Diff% Revenue period A-B</div>
+              </div>
+              <div class="dstat">
+                <div class="dl">% ผลต่างค่าน้ำค้าง</div>
+                <div class="dpct" id="dp-d">—</div>
+                <div class="dsub">Diff% Debt period A-B</div>
+              </div>
+            </div>
+            <div class="dchart">
+              <div class="dchart-title">ผลต่างรายได้เทียบหนี้ค้าง</div>
+              <div id="wf"></div>
+            </div>
+            <div class="dnote">A = ปีปัจจุบัน<br>B = ปีก่อน</div>
+          </div>
+          <div>
+            <div class="sec-lbl" style="font-size:10px;font-weight:800;color:var(--muted);text-align:center;margin-bottom:6px;" id="lab-b">—</div>
+            <div class="kpi-pair">
+              <div class="kc rb"><div class="kl">รายได้ค่าน้ำทั้งหมด</div><div class="kv" id="kv-rB">—</div><div class="ks">Revenue Period B</div></div>
+              <div class="kc db"><div class="kl">ค่าน้ำค้างชำระทั้งหมด</div><div class="kv" id="kv-dB">—</div><div class="ks">Debt Period B</div></div>
+            </div>
+            <div style="font-size:10px;font-weight:800;margin-bottom:4px;" class="sec-lbl">รายได้ค่าน้ำ (ล้านบาท)</div>
+            <div id="hb-rB"></div>
+            <div style="font-size:10px;font-weight:800;margin:4px 0;" class="sec-lbl">ค่าน้ำค้างชำระ (ล้านบาท)</div>
+            <div id="hb-dB"></div>
+          </div>
         </div>
         <!-- regional charts -->
         <div style="margin-top:8px;border-top:1px solid var(--g2);padding-top:6px;">
           <div style="font-size:10px;font-weight:800;margin-bottom:4px;" class="sec-lbl">จำนวนหนี้ค้างเทียบรายได้ รายเขต (ล้านบาท)</div>
           <div class="g2">
-            <div><div style="font-size:9px;color:var(--muted);margin-bottom:3px;">Period B</div><div class="chw" style="height:85px;"><canvas id="c-cmpb"></canvas></div></div>
-            <div><div style="font-size:9px;color:var(--muted);margin-bottom:3px;">Period A</div><div class="chw" style="height:85px;"><canvas id="c-cmpa"></canvas></div></div>
+            <div><div style="font-size:9px;color:var(--muted);margin-bottom:3px;">Period A (ปีปัจจุบัน)</div><div class="chw" style="height:85px;"><canvas id="c-cmpa"></canvas></div></div>
+            <div><div style="font-size:9px;color:var(--muted);margin-bottom:3px;">Period B (ปีก่อน)</div><div class="chw" style="height:85px;"><canvas id="c-cmpb"></canvas></div></div>
           </div>
         </div>
       </div>
@@ -652,10 +716,10 @@ function getTodayDefaults(){
   const buddhistYear = now.getFullYear() + 543;
   return {
     region: 'กปภ.เขต 6',
-    yearB: buddhistYear,
-    yearA: buddhistYear - 1,
-    monthB: THAI_MONTHS_FULL[now.getMonth()],
-    monthA: 'กันยายน'
+    yearB: buddhistYear - 1,
+    yearA: buddhistYear,
+    monthB: 'กันยายน',
+    monthA: THAI_MONTHS_FULL[now.getMonth()]
   };
 }
 
@@ -758,13 +822,13 @@ function handleXlsxFile(file){
         const vPrev=(raw[yrPrev]&&raw[yrPrev][mo]!=null)?raw[yrPrev][mo].toFixed(2):'0';
         const vCur =(raw[yrCur] &&raw[yrCur][mo]!=null)?raw[yrCur][mo].toFixed(2):'0';
         const tr=document.createElement('tr');
-        tr.innerHTML=`<td><input value="${mo}"></td><td><input type="number" value="${vPrev}" step="0.01"></td><td><input type="number" value="${vCur}" step="0.01"></td>`;
+        tr.innerHTML=`<td><input value="${mo}"></td><td><input type="number" value="${vCur}" step="0.01"></td><td><input type="number" value="${vPrev}" step="0.01"></td>`;
         moTbody.appendChild(tr);
       });
 
       // อัปเดต header ชื่อปี ของตาราง mo
-      const hPrev=$('mo-hdr-prev'); if(hPrev) hPrev.textContent=`ปีก่อน (${yrPrev})`;
       const hCur =$('mo-hdr-cur');  if(hCur)  hCur.textContent =`ปีปัจจุบัน (${yrCur})`;
+      const hPrev=$('mo-hdr-prev'); if(hPrev) hPrev.textContent=`ปีก่อน (${yrPrev})`;
 
       // อัปเดต UI
       const dz=$('xlsx-drop-zone');
@@ -801,8 +865,8 @@ const PRIV_KW = ['พักอาศัย','ธุรกิจ'];   // keyword 
 const GOVT_KW = ['ราชการ','รัฐวิสาหกิจ'];
 
 function calcPrivGovt(){
-  // column order: ประเภท, รายได้B, หนี้ค้างB, รายได้A, หนี้ค้างA
-  const cats = getTbl('cat-rows',['n','rB','dB','rA','dA']);
+  // column order: ประเภท, รายได้A, หนี้ค้างA, รายได้B, หนี้ค้างB
+  const cats = getTbl('cat-rows',['n','rA','dA','rB','dB']);
   let pA=0, gA=0, pB=0, gB=0;
   cats.forEach(c=>{
     const name = c.n || '';
@@ -845,18 +909,57 @@ function hbars(cid,rows,key,color,max){
 function setDiff(id,val,flipBad){const el=$(id);const n=parseFloat(val);const bad=flipBad?n>0:n<0;el.className='dv '+(bad?'neg':'pos');el.textContent=(n>0?'+':'')+f(n);}
 function setPct(id,val,flipBad){const el=$(id);const n=parseFloat(val);const bad=flipBad?n>0:n<0;el.className='dpct '+(bad?'neg':'pos');el.textContent=(n>0?'+':'')+f(n)+' %';}
 
-function wfall(divId,dR,dD){
-  const el=$(divId);
-  const mx=Math.max(Math.abs(dR),Math.abs(dD),1);
-  const hr=Math.abs(dR/mx*44).toFixed(0),hd=Math.abs(dD/mx*44).toFixed(0);
-  // dR = B-A ของรายได้: ถ้า > 0 รายได้เพิ่ม = น้ำเงิน; ถ้า < 0 รายได้ลด = แดง
-  // dD = B-A ของหนี้: ถ้า > 0 หนี้เพิ่ม = แดง; ถ้า < 0 หนี้ลด = น้ำเงิน
-  const cr=dR<0?'#c62828':'#1976d2';
-  const cd=dD>0?'#c62828':'#1976d2';
-  el.innerHTML=`<div style="display:flex;gap:8px;justify-content:center;align-items:flex-end;">
-    <div style="text-align:center;"><div style="font-size:8px;color:var(--muted);">รายได้</div><div style="width:22px;background:${cr};height:${hr}px;border-radius:3px;margin:2px auto;min-height:4px;"></div><div style="font-family:var(--mono);font-size:8px;color:${cr};">${dR>0?'+':''}${f(dR)}</div></div>
-    <div style="text-align:center;"><div style="font-size:8px;color:var(--muted);">หนี้ค้าง</div><div style="width:22px;background:${cd};height:${hd}px;border-radius:3px;margin:2px auto;min-height:4px;"></div><div style="font-family:var(--mono);font-size:8px;color:${cd};">${dD>0?'+':''}${f(dD)}</div></div>
+function fmtPctTick(n){ return `${n>0?'+':''}${f(n)} %`; }
+
+function buildDiffCompareChart(pR,pD){
+  const values=[pR,pD,0];
+  const absMax=Math.max(...values.map(v=>Math.abs(v)),1);
+  const step=absMax<=5 ? 2.5 : absMax<=10 ? 5 : absMax<=20 ? 10 : 20;
+  let max=Math.max(step, Math.ceil(Math.max(...values)/step)*step);
+  let min=Math.min(-step, Math.floor(Math.min(...values)/step)*step);
+  if(min===max){ min=-step; max=step; }
+  const span=max-min;
+  const zeroPct=((max/span)*100);
+  const ticks=[max,max-(span/3),max-(span*2/3),min];
+  const barHtml=(val,key,label)=>{
+    const heightPct=Math.max(Math.abs(val)/span*100,2);
+    const topPct=val>=0 ? zeroPct-heightPct : zeroPct;
+    const signPos=val>=0 ? 'above' : 'below';
+    const showInner=heightPct >= 24;
+    const showOuter=!showInner;
+    return `<div class="wfitem">
+      <div class="wfbar ${key}" style="top:${topPct}%;height:${heightPct}%;">
+        ${showInner ? `<span class="wfbar-label">${fmtPctTick(val)}</span>` : ''}
+      </div>
+      ${showOuter ? `<div class="wfvalue ${signPos}" style="color:${key==='rev'?'#1e88e5':'#3949ab'};">${fmtPctTick(val)}</div>` : ''}
+    </div>`;
+  };
+  return `<div class="wfbox">
+    <div class="wfaxis">${ticks.map(v=>`<div>${fmtPctTick(v)}</div>`).join('')}</div>
+    <div>
+      <div class="wfplot">
+        <div class="wfzero" style="top:${zeroPct}%;"></div>
+        <div class="wfbars">
+          ${barHtml(pR,'rev','รายได้')}
+          ${barHtml(pD,'debt','หนี้ค้าง')}
+        </div>
+      </div>
+      <div class="wfcats">
+        <div class="wfcat">รายได้</div>
+        <div class="wfcat">หนี้ค้าง</div>
+      </div>
+      <div class="wfleg">
+        <div class="leg"><div class="legdot" style="background:#1e88e5;"></div>Diff% Revenue period A-B</div>
+        <div class="leg"><div class="legdot" style="background:#3949ab;"></div>Diff% Debt period A-B</div>
+      </div>
+    </div>
   </div>`;
+}
+
+function wfall(divId,pR,pD){
+  const el=$(divId);
+  if(!el) return;
+  el.innerHTML=buildDiffCompareChart(pR,pD);
 }
 
 const C5=['#26a69a','#ef9a9a','#9c27b0','#e67e22','#1976d2'];
@@ -1001,10 +1104,10 @@ function monthlyBarLabelOptions(fontSize){
 function syncKPI(){
   const rows=[...document.querySelectorAll('#cat-rows tr')];
   const sum=(col)=>rows.reduce((s,r)=>{const ins=r.querySelectorAll('input');return s+(parseFloat(ins[col]?.value)||0);},0);
-  $('f_rB').value=sum(1).toFixed(2);
-  $('f_dB').value=sum(2).toFixed(2);
-  $('f_rA').value=sum(3).toFixed(2);
-  $('f_dA').value=sum(4).toFixed(2);
+  $('f_rA').value=sum(1).toFixed(2);
+  $('f_dA').value=sum(2).toFixed(2);
+  $('f_rB').value=sum(3).toFixed(2);
+  $('f_dB').value=sum(4).toFixed(2);
 }
 function gen(){
   const branch=$('f_branch').value,region=$('f_region').value;
@@ -1015,26 +1118,26 @@ function gen(){
   // คำนวณ เอกชน/ราชการ จากตารางแยกประเภทอัตโนมัติ
   const {pA,gA,pB,gB} = calcPrivGovt();
   const yn5=$('yn5').value,yn4=$('yn4').value,yn3=$('yn3').value,yn2=$('yn2').value,yn1=$('yn1').value;
-  // column order ใหม่: ประเภท, รายได้A, หนี้ค้างA, รายได้B, หนี้ค้างB
-  const cats=getTbl('cat-rows',['n','rB','dB','rA','dA']).sort((a,b)=>parseFloat(b.dA)-parseFloat(a.dA));
-  const mos=getTbl('mo-rows',['m','prev','cur']);
+  // column order: ประเภท, รายได้ A, หนี้ค้าง A, รายได้ B, หนี้ค้าง B
+  const cats=getTbl('cat-rows',['n','rA','dA','rB','dB']).sort((a,b)=>parseFloat(b.dA)-parseFloat(a.dA));
+  const mos=getTbl('mo-rows',['m','cur','prev']);
   const trs=getTbl('tr-rows',['m','y5','y4','y3','y2','y1']);
-  const dR=rB-rA, dD=dB-dA;   // B - A (ปีปัจจุบัน - ปีก่อน)
-  const pR=rA?dR/rA*100:0,  pD=dA?dD/dA*100:0;
+  const dR=rA-rB, dD=dA-dB;   // A - B (ปีปัจจุบัน - ปีก่อน)
+  const pR=rB?dR/rB*100:0,  pD=dB?dD/dB*100:0;
   // รายได้: dR > 0 = รายได้เพิ่ม (ดี), dR < 0 = รายได้ลด (ไม่ดี)
   // หนี้ค้าง: dD > 0 = หนี้เพิ่ม (ไม่ดี), dD < 0 = หนี้ลด (ดี)
-  const period=`ประจำปี ${yB} เดือน ${mA} - ${mB}`;
+  const period=`ประจำปี ${yA} เดือน ${mB} - ${mA}`;
   $('tb-s').textContent=`${region} — ${period}`;
   $('r-sub').textContent=period;$('r-branch').textContent=branch;$('r-period').textContent=period;
   $('fb-yA').textContent=yA;$('fb-yB').textContent=yB;$('fb-mA').textContent=mA;$('fb-mB').textContent=mB;
   $('lab-a').textContent=`${branch} — ปี ${yA} (${mA})`;$('lab-b').textContent=`${branch} — ปี ${yB} (${mB})`;
   $('kv-rA').textContent=f(rA);$('kv-dA').textContent=f(dA);$('kv-rB').textContent=f(rB);$('kv-dB').textContent=f(dB);
-  $('leg-a').textContent=`ปีก่อน (${yA})`;$('leg-b').textContent=`ปีปัจจุบัน (${yB})`;
+  $('leg-a').textContent=`ปีก่อน (${yB})`;$('leg-b').textContent=`ปีปัจจุบัน (${yA})`;
   setDiff('d-r', dR, false);  // รายได้เพิ่ม = ดี
   setDiff('d-d', dD, true);   // หนี้เพิ่ม = ไม่ดี
   setPct('dp-r', pR, false);
   setPct('dp-d', pD, true);
-  wfall('wf', dR, dD);
+  wfall('wf', pR, pD);
   const mxR=Math.max(...cats.map(c=>Math.max(parseFloat(c.rA)||0,parseFloat(c.rB)||0)))*1.15;
   const mxD=Math.max(...cats.map(c=>Math.max(parseFloat(c.dA)||0,parseFloat(c.dB)||0)))*1.15;
   hbars('hb-rA',cats,'rA','#546e7a',mxR);hbars('hb-dA',cats,'dA','#e67e22',mxD);
@@ -1225,9 +1328,9 @@ function buildPrintLayout(){
   const dB = parseFloat($('kv-dB')?.textContent)||0;
   const labA = $('lab-a')?.textContent||'';
   const labB = $('lab-b')?.textContent||'';
-  const dR = rB-rA, dD = dB-dA;
-  const pR = rA?dR/rA*100:0, pD = dA?dD/dA*100:0;
-  const cats = getTbl('cat-rows',['n','rB','dB','rA','dA']).sort((a,b)=>parseFloat(b.dA)-parseFloat(a.dA));
+  const dR = rA-rB, dD = dA-dB;
+  const pR = rB?dR/rB*100:0, pD = dB?dD/dB*100:0;
+  const cats = getTbl('cat-rows',['n','rA','dA','rB','dB']).sort((a,b)=>parseFloat(b.dA)-parseFloat(a.dA));
   const mxR = Math.max(...cats.map(c=>Math.max(parseFloat(c.rA)||0,parseFloat(c.rB)||0)))*1.15;
   const mxD = Math.max(...cats.map(c=>Math.max(parseFloat(c.dA)||0,parseFloat(c.dB)||0)))*1.15;
   const ops    = $('r-ops')?.textContent||'';
@@ -1243,7 +1346,7 @@ function buildPrintLayout(){
   // ── เก็บ chart data ──
   const yn5=$('yn5')?.value||'', yn4=$('yn4')?.value||'', yn3=$('yn3')?.value||'', yn2=$('yn2')?.value||'', yn1=$('yn1')?.value||'';
   const {pA,gA,pB,gB} = calcPrivGovt();
-  const mos = getTbl('mo-rows',['m','prev','cur']);
+  const mos = getTbl('mo-rows',['m','cur','prev']);
   const trs = getTbl('tr-rows',['m','y5','y4','y3','y2','y1']);
   const C5 = ['#26a69a','#ef9a9a','#9c27b0','#e67e22','#1976d2'];
   const tyrs = [yn5,yn4,yn3,yn2,yn1];
@@ -1263,13 +1366,13 @@ function buildPrintLayout(){
     </div>
     <!-- FILTER BAR -->
     <div class="pfbar">
-      <div><div class="pfl">ปีงบประมาณ B</div><div class="pfv">${yB}</div></div>
-      <div class="pfbar-sep"></div>
-      <div><div class="pfl">เดือน B</div><div class="pfv">${mB}</div></div>
-      <div style="flex:1"></div>
-      <div><div class="pfl">ปีงบประมาณ A</div><div class="pfv">${yA}</div></div>
+      <div><div class="pfl">ปีงบประมาณ A (ปีปัจจุบัน)</div><div class="pfv">${yA}</div></div>
       <div class="pfbar-sep"></div>
       <div><div class="pfl">เดือน A</div><div class="pfv">${mA}</div></div>
+      <div style="flex:1"></div>
+      <div><div class="pfl">ปีงบประมาณ B (ปีก่อน)</div><div class="pfv">${yB}</div></div>
+      <div class="pfbar-sep"></div>
+      <div><div class="pfl">เดือน B</div><div class="pfv">${mB}</div></div>
     </div>
 
     <!-- ROW 1: CMP CARD -->
@@ -1277,41 +1380,6 @@ function buildPrintLayout(){
       <div class="pch">ข้อมูลหนี้ค้างชำระ ทุกประเภท</div>
       <div class="pcb">
         <div class="pcmp">
-          <!-- Period B -->
-          <div>
-            <div class="psl" style="text-align:center;color:#607d8b;">${labB}</div>
-            <div class="pkpair">
-              ${pKV('#1976d2','รายได้ค่าน้ำทั้งหมด',rB.toFixed(2),'Revenue Period B')}
-              ${pKV('#e53935','ค่าน้ำค้างชำระทั้งหมด',dB.toFixed(2),'Debt Period B')}
-            </div>
-            <div class="psl">รายได้ค่าน้ำ (ล้านบาท)</div>
-            ${pHbars(cats,'rB','#1976d2',mxR)}
-            <div class="psl" style="margin-top:4px;">ค่าน้ำค้างชำระ (ล้านบาท)</div>
-            ${pHbars(cats,'dB','#e53935',mxD)}
-          </div>
-          <!-- Diff -->
-          <div class="pdcol">
-            <div><div class="pdl">ผลต่างรายได้ (B - A)</div><div class="pdv">${pDiff(dR,false)}</div></div>
-            <div><div class="pdl">ผลต่างหนี้ค้าง (B - A)</div><div class="pdv">${pDiff(dD,true)}</div></div>
-            <div><div class="pdl">% ผลต่างรายได้ (B - A)</div><div class="pdpct">${pPct(pR,false)}</div></div>
-            <div><div class="pdl">% ผลต่างหนี้ค้าง (B - A)</div><div class="pdpct">${pPct(pD,true)}</div></div>
-            <div>
-              <div class="pdl" style="margin-bottom:2px;">ผลต่างรายได้เทียบหนี้ค้าง (B - A)</div>
-              <div style="display:flex;gap:6px;justify-content:center;align-items:flex-end;">
-                <div style="text-align:center;">
-                  <div style="font-size:7px;color:#607d8b;">รายได้</div>
-                  <div style="width:18px;background:${cR};height:${hR}px;border-radius:2px;margin:1px auto;min-height:3px;"></div>
-                  <div style="font-size:7px;color:${cR};font-family:'Courier New',monospace;">${dR>0?'+':''}${dR.toFixed(2)}</div>
-                </div>
-                <div style="text-align:center;">
-                  <div style="font-size:7px;color:#607d8b;">หนี้ค้าง</div>
-                  <div style="width:18px;background:${cD};height:${hD}px;border-radius:2px;margin:1px auto;min-height:3px;"></div>
-                  <div style="font-size:7px;color:${cD};font-family:'Courier New',monospace;">${dD>0?'+':''}${dD.toFixed(2)}</div>
-                </div>
-              </div>
-            </div>
-            <div class="pdnote">B = ปีปัจจุบัน<br>A = ปีก่อน</div>
-          </div>
           <!-- Period A -->
           <div>
             <div class="psl" style="text-align:center;color:#607d8b;">${labA}</div>
@@ -1323,6 +1391,48 @@ function buildPrintLayout(){
             ${pHbars(cats,'rA','#546e7a',mxR)}
             <div class="psl" style="margin-top:4px;">ค่าน้ำค้างชำระ (ล้านบาท)</div>
             ${pHbars(cats,'dA','#e67e22',mxD)}
+          </div>
+          <!-- Diff -->
+          <div class="pdcol">
+            <div class="pdgrid">
+              <div class="pdstat">
+                <div class="pdl">ผลต่างรายได้ค่าน้ำ</div>
+                <div class="pdv">${pDiff(dR,false)}</div>
+                <div class="pdsub">Diff Revenue period A-B</div>
+              </div>
+              <div class="pdstat">
+                <div class="pdl">ผลต่างค่าน้ำค้างชำระ</div>
+                <div class="pdv">${pDiff(dD,true)}</div>
+                <div class="pdsub">Diff Debt period A-B</div>
+              </div>
+              <div class="pdstat">
+                <div class="pdl">% ผลต่างรายได้</div>
+                <div class="pdpct">${pPct(pR,false)}</div>
+                <div class="pdsub">Diff% Revenue period A-B</div>
+              </div>
+              <div class="pdstat">
+                <div class="pdl">% ผลต่างค่าน้ำค้าง</div>
+                <div class="pdpct">${pPct(pD,true)}</div>
+                <div class="pdsub">Diff% Debt period A-B</div>
+              </div>
+            </div>
+            <div class="pdchart">
+              <div class="pdchart-title">ผลต่างรายได้เทียบหนี้ค้าง</div>
+              ${buildDiffCompareChart(pR,pD)}
+            </div>
+            <div class="pdnote">A = ปีปัจจุบัน<br>B = ปีก่อน</div>
+          </div>
+          <!-- Period B -->
+          <div>
+            <div class="psl" style="text-align:center;color:#607d8b;">${labB}</div>
+            <div class="pkpair">
+              ${pKV('#1976d2','รายได้ค่าน้ำทั้งหมด',rB.toFixed(2),'Revenue Period B')}
+              ${pKV('#e53935','ค่าน้ำค้างชำระทั้งหมด',dB.toFixed(2),'Debt Period B')}
+            </div>
+            <div class="psl">รายได้ค่าน้ำ (ล้านบาท)</div>
+            ${pHbars(cats,'rB','#1976d2',mxR)}
+            <div class="psl" style="margin-top:4px;">ค่าน้ำค้างชำระ (ล้านบาท)</div>
+            ${pHbars(cats,'dB','#e53935',mxD)}
           </div>
         </div>
       </div>
@@ -1345,8 +1455,8 @@ function buildPrintLayout(){
         <div class="pcb">
           <div class="pchw" style="min-height:95px;"><canvas id="pc-mo"></canvas></div>
           <div class="pleg">
-            <div class="plegitem"><div class="plegdot" style="background:#ef9a9a;"></div>ปีก่อน (${yA})</div>
-            <div class="plegitem"><div class="plegdot" style="background:#1976d2;"></div>ปีปัจจุบัน (${yB})</div>
+            <div class="plegitem"><div class="plegdot" style="background:#ef9a9a;"></div>ปีก่อน (${yB})</div>
+            <div class="plegitem"><div class="plegdot" style="background:#1976d2;"></div>ปีปัจจุบัน (${yA})</div>
           </div>
         </div>
       </div>
@@ -1400,7 +1510,7 @@ function buildPrintCharts(){
   const yA=$('fb-yA')?.textContent||'';
   const yB=$('fb-yB')?.textContent||'';
   const {pA,gA,pB,gB} = calcPrivGovt();
-  const mos = getTbl('mo-rows',['m','prev','cur']);
+  const mos = getTbl('mo-rows',['m','cur','prev']);
   const trs = getTbl('tr-rows',['m','y5','y4','y3','y2','y1']);
   const tyrs=[$('yn5')?.value,$('yn4')?.value,$('yn3')?.value,$('yn2')?.value,$('yn1')?.value];
   const tkeys=['y5','y4','y3','y2','y1'];
@@ -1553,7 +1663,7 @@ function bmCollect(){
     [...tr.querySelectorAll('input')].map(i=>i.value)
   );
   return {
-    v: 2, // version
+    v: 4, // version
     ts: Date.now(),
     // ข้อมูลพื้นฐาน
     branch: $('f_branch').value,   // select value
@@ -1583,8 +1693,43 @@ function bmCollect(){
   };
 }
 
+function bmNormalizeData(d){
+  if(!d || (d.v || 1) >= 4) return d;
+  const toCatRowsAFirst = (rows=[]) => rows.map(r => {
+    if(!Array.isArray(r) || r.length < 5) return r;
+    return [r[0], r[3], r[4], r[1], r[2]];
+  });
+  const toMoRowsCurrentFirst = (rows=[]) => rows.map(r => {
+    if(!Array.isArray(r) || r.length < 3) return r;
+    return [r[0], r[2], r[1]];
+  });
+  if((d.v || 1) < 3){
+    return {
+      ...d,
+      v: 4,
+      yA: d.yB,
+      yB: d.yA,
+      mA: d.mB,
+      mB: d.mA,
+      rA: d.rB,
+      dA: d.dB,
+      rB: d.rA,
+      dB: d.dA,
+      catRows: d.catRows,
+      moRows: toMoRowsCurrentFirst(d.moRows)
+    };
+  }
+  return {
+    ...d,
+    v: 4,
+    catRows: toCatRowsAFirst(d.catRows),
+    moRows: toMoRowsCurrentFirst(d.moRows)
+  };
+}
+
 // ─ Restore form data ─
 function bmRestore(d){
+  d = bmNormalizeData(d);
   const setVal = (id,v)=>{ const el=$(id); if(el&&v!=null) el.value=v; };
   // restore branch select
   const branchEl = $('f_branch');
@@ -1678,7 +1823,7 @@ function bmLoad(){
   const raw = localStorage.getItem(bmKey(name));
   if(!raw){ bmToast('ไม่พบข้อมูล', '#b71c1c'); return; }
   try {
-    const d = JSON.parse(raw);
+    const d = bmNormalizeData(JSON.parse(raw));
     const ts = d.ts ? new Date(d.ts).toLocaleString('th-TH') : '—';
     if(!window.confirm(`โหลดข้อมูล "${name}" ?\nบันทึกล่าสุด: ${ts}\n\n⚠️ ข้อมูลในฟอร์มปัจจุบันจะถูกแทนที่`)) return;
     bmRestore(d);
