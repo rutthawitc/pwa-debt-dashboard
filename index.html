@@ -47,6 +47,17 @@ input[type=number]{font-family:var(--mono);font-size:12px;}
 .mtbl td input{border:none;width:100%;padding:3px 5px;font-size:12px;font-family:var(--font);background:transparent;}
 .mtbl td input:focus{background:#e3f2fd;outline:none;border-radius:3px;}
 .add-btn{margin-top:6px;background:none;border:1.5px dashed var(--g3);border-radius:6px;padding:4px 10px;font-size:11px;font-family:var(--font);color:var(--muted);cursor:pointer;}
+.cat-import-box{margin-top:12px;border:1px solid #bbdefb;border-radius:9px;background:#f7fbff;padding:12px;}
+.cat-import-box + .mtbl{margin-top:16px;}
+.cat-import-note{font-size:11px;line-height:1.6;color:#455a64;margin-bottom:10px;}
+.cat-import-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.cat-import-item{display:flex;flex-direction:column;gap:5px;}
+.cat-import-item span{font-size:11px;font-weight:700;color:#1565c0;}
+.cat-import-item input[type=file]{padding:6px 8px;font-size:11px;border:1px solid #d6e6f5;border-radius:7px;background:#fff;}
+.cat-import-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;}
+.cat-import-btn{margin-top:0;background:linear-gradient(135deg,#64b5f6,#42a5f5);border:1px solid #90caf9;border-radius:7px;padding:7px 14px;font-size:12px;font-weight:700;color:#fff;cursor:pointer;box-shadow:0 4px 10px rgba(66,165,245,.16);}
+.cat-import-btn:hover{filter:brightness(.98);}
+.cat-import-status{font-size:11px;font-weight:700;}
 .kpi-auto{background:#f0f4ff!important;color:#1565c0!important;font-weight:700!important;cursor:default!important;border-color:#90a4ae!important;}
 .gen-btn{width:100%;padding:13px;border:none;border-radius:10px;background:linear-gradient(135deg,#b71c1c,#e53935);color:#fff;font-family:var(--font);font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 6px 20px rgba(183,28,28,.35);margin-top:6px;}
 
@@ -398,6 +409,23 @@ body.print-prepping #print-only{
     <div class="fsec">
       <div class="fsh">👥 หนี้ค้างแยกประเภท (ล้านบาท)</div>
       <div class="fsb">
+        <div class="cat-import-box">
+          <div class="cat-import-note">
+            <strong>Import XLS/XLSX สำหรับตารางนี้</strong><br>
+            A1 = รายได้ A (ปีปัจจุบัน), A2 = หนี้ค้าง A (ปีปัจจุบัน), B1 = รายได้ B (ปีก่อน), B2 = หนี้ค้าง B (ปีก่อน)<br>
+            รองรับไฟล์คอลัมน์ <strong>groupname_short</strong> + มูลค่า และถ้าบางสาขาไม่มีครบ 5 ประเภท ระบบจะเติม <strong>0.00</strong> ให้เอง
+          </div>
+          <div class="cat-import-grid">
+            <label class="cat-import-item"><span>A1: รายได้ A</span><input type="file" id="cat-xlsx-a1" accept=".xlsx,.xls"></label>
+            <label class="cat-import-item"><span>A2: หนี้ค้าง A</span><input type="file" id="cat-xlsx-a2" accept=".xlsx,.xls"></label>
+            <label class="cat-import-item"><span>B1: รายได้ B</span><input type="file" id="cat-xlsx-b1" accept=".xlsx,.xls"></label>
+            <label class="cat-import-item"><span>B2: หนี้ค้าง B</span><input type="file" id="cat-xlsx-b2" accept=".xlsx,.xls"></label>
+          </div>
+          <div class="cat-import-actions">
+            <button class="cat-import-btn" onclick="importCategoryFiles()">นำเข้า 4 ไฟล์</button>
+            <div id="cat-import-status" class="cat-import-status" style="display:none;"></div>
+          </div>
+        </div>
         <table class="mtbl">
           <thead><tr><th>ประเภท</th><th>รายได้ A (ปีปัจจุบัน)</th><th>หนี้ค้าง A (ปีปัจจุบัน)</th><th>รายได้ B (ปีก่อน)</th><th>หนี้ค้าง B (ปีก่อน)</th></tr></thead>
           <tbody id="cat-rows" oninput="syncKPI()">
@@ -711,6 +739,13 @@ function dc(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
 const MONTH_MAP={'ตุลาคม':'ต.ค.','พฤศจิกายน':'พ.ย.','ธันวาคม':'ธ.ค.','มกราคม':'ม.ค.','กุมภาพันธ์':'ก.พ.','มีนาคม':'มี.ค.','เมษายน':'เม.ย.','พฤษภาคม':'พ.ค.','มิถุนายน':'มิ.ย.','กรกฎาคม':'ก.ค.','กรกฏาคม':'ก.ค.','สิงหาคม':'ส.ค.','กันยายน':'ก.ย.'};
 const MONTH_ORDER=['ต.ค.','พ.ย.','ธ.ค.','ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.'];
 const THAI_MONTHS_FULL=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+const CAT_BASE_ORDER=['ที่พักอาศัย','ธุรกิจขนาดเล็ก','ธุรกิจขนาดใหญ่','รัฐวิสาหกิจ','ราชการ'];
+const CAT_IMPORT_SLOTS=[
+  {key:'a1',inputId:'cat-xlsx-a1',label:'A1',field:'rA',expected:'Revenue Period A',patterns:[/revenue\s*period\s*a/i,/รายได้.*(?:period|ปี).*a/i]},
+  {key:'a2',inputId:'cat-xlsx-a2',label:'A2',field:'dA',expected:'Debt Period A',patterns:[/debt\s*period\s*a/i,/หนี้.*(?:period|ปี).*a/i]},
+  {key:'b1',inputId:'cat-xlsx-b1',label:'B1',field:'rB',expected:'Revenue Period B',patterns:[/revenue\s*period\s*b/i,/รายได้.*(?:period|ปี).*b/i]},
+  {key:'b2',inputId:'cat-xlsx-b2',label:'B2',field:'dB',expected:'Debt Period B',patterns:[/debt\s*period\s*b/i,/หนี้.*(?:period|ปี).*b/i]}
+];
 
 function getTodayDefaults(){
   const now = new Date();
@@ -730,6 +765,157 @@ function handleXlsxDrop(e){
   dz.style.background='#e3f2fd';dz.style.borderColor='#1976d2';
   const file=e.dataTransfer.files[0];
   if(file) handleXlsxFile(file);
+}
+
+function readWorkbookRows(file){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=e=>{
+      try{
+        const wb=XLSX.read(new Uint8Array(e.target.result),{type:'array'});
+        const ws=wb.Sheets[wb.SheetNames[0]];
+        resolve(XLSX.utils.sheet_to_json(ws,{header:1,defval:''}));
+      }catch(err){
+        reject(err);
+      }
+    };
+    reader.onerror=()=>reject(reader.error||new Error('อ่านไฟล์ไม่สำเร็จ'));
+    reader.readAsArrayBuffer(file);
+  });
+}
+
+function setCategoryImportStatus(text,color){
+  const st=$('cat-import-status');
+  if(!st) return;
+  st.style.display='block';
+  st.style.color=color||'#1565c0';
+  st.textContent=text;
+}
+
+function resetCategoryImportUI(){
+  CAT_IMPORT_SLOTS.forEach(slot=>{
+    const input=$(slot.inputId);
+    if(input) input.value='';
+  });
+  const st=$('cat-import-status');
+  if(st){
+    st.style.display='none';
+    st.textContent='';
+  }
+}
+
+function normalizeCategoryName(name){
+  const raw=String(name||'').trim().replace(/\s+/g,' ');
+  const compact=raw.replace(/\s+/g,'');
+  if(!compact) return '';
+  if(/^ที่?พักอาศัย$/u.test(compact) || /^บ้านพักอาศัย$/u.test(compact)) return 'ที่พักอาศัย';
+  if(/^ธุรกิจ(ขนาด)?เล็ก$/u.test(compact)) return 'ธุรกิจขนาดเล็ก';
+  if(/^ธุรกิจ(ขนาด)?ใหญ่$/u.test(compact)) return 'ธุรกิจขนาดใหญ่';
+  if(/^รัฐวิสาหกิจ$/u.test(compact)) return 'รัฐวิสาหกิจ';
+  if(/^ราชการ$/u.test(compact)) return 'ราชการ';
+  return raw;
+}
+
+function parseCategoryWorkbookRows(rows,slot){
+  let hdrIdx=-1,catIdx=-1,valIdx=-1,valueHeader='';
+  for(let i=0;i<rows.length;i++){
+    const cells=(rows[i]||[]).map(c=>String(c??'').trim());
+    const foundCatIdx=cells.findIndex(c=>/groupname_short|groupname|ประเภท/i.test(c));
+    if(foundCatIdx<0) continue;
+    const foundValIdx=cells.findIndex((c,idx)=>idx!==foundCatIdx && slot.patterns.some(re=>re.test(c)));
+    const fallbackIdx=cells.findIndex((c,idx)=>idx!==foundCatIdx && c!=='');
+    if(foundValIdx<0 && fallbackIdx<0) continue;
+    hdrIdx=i;
+    catIdx=foundCatIdx;
+    valIdx=foundValIdx>=0?foundValIdx:fallbackIdx;
+    valueHeader=cells[valIdx]||'';
+    break;
+  }
+  if(hdrIdx<0 || catIdx<0 || valIdx<0){
+    throw new Error(`ไฟล์ ${slot.label} ไม่พบคอลัมน์ groupname_short และ ${slot.expected}`);
+  }
+  if(valueHeader && !slot.patterns.some(re=>re.test(valueHeader))){
+    throw new Error(`ไฟล์ ${slot.label} ต้องเป็นคอลัมน์ ${slot.expected} แต่พบ "${valueHeader}"`);
+  }
+
+  const values={};
+  const order=[];
+  for(let i=hdrIdx+1;i<rows.length;i++){
+    const row=rows[i]||[];
+    const name=normalizeCategoryName(row[catIdx]);
+    const rawValue=String(row[valIdx]??'').trim().replace(/,/g,'');
+    const num=parseFloat(rawValue);
+    if(!name || !rawValue || Number.isNaN(num) || /^รวม/u.test(name)) continue;
+    if(values[name]==null) order.push(name);
+    values[name]=rawValue;
+  }
+  if(!order.length){
+    throw new Error(`ไฟล์ ${slot.label} ไม่มีข้อมูลรายการประเภทให้ใช้งาน`);
+  }
+  return {values,order};
+}
+
+function renderCategoryImportRows(names,imported){
+  const tbody=$('cat-rows');
+  if(!tbody) return;
+  tbody.innerHTML='';
+  names.forEach(name=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML='<td><input></td><td><input type="number" step="0.01"></td><td><input type="number" step="0.01"></td><td><input type="number" step="0.01"></td><td><input type="number" step="0.01"></td>';
+    const inputs=tr.querySelectorAll('input');
+    const vals=[
+      name,
+      imported.a1.values[name] ?? '0',
+      imported.a2.values[name] ?? '0',
+      imported.b1.values[name] ?? '0',
+      imported.b2.values[name] ?? '0'
+    ];
+    inputs[0].value=vals[0];
+    for(let i=1;i<inputs.length;i++) inputs[i].value=vals[i];
+    tbody.appendChild(tr);
+  });
+}
+
+async function importCategoryFiles(){
+  const files={};
+  for(const slot of CAT_IMPORT_SLOTS){
+    const file=$(slot.inputId)?.files?.[0];
+    if(!file){
+      setCategoryImportStatus(`❌ กรุณาเลือกไฟล์ ${slot.label} ให้ครบทั้ง 4 ช่อง`,'#c62828');
+      return;
+    }
+    files[slot.key]=file;
+  }
+
+  setCategoryImportStatus('⏳ กำลังอ่านไฟล์ A1 / A2 / B1 / B2 ...','#1565c0');
+  try{
+    const entries=await Promise.all(CAT_IMPORT_SLOTS.map(async slot=>{
+      const rows=await readWorkbookRows(files[slot.key]);
+      return [slot.key,parseCategoryWorkbookRows(rows,slot)];
+    }));
+    const imported=Object.fromEntries(entries);
+    const extraNames=[];
+    Object.values(imported).forEach(({order})=>{
+      order.forEach(name=>{
+        if(!CAT_BASE_ORDER.includes(name) && !extraNames.includes(name)) extraNames.push(name);
+      });
+    });
+    const allNames=[...CAT_BASE_ORDER,...extraNames];
+    renderCategoryImportRows(allNames,imported);
+    syncKPI();
+    recalcPrivGovt();
+
+    const counts=CAT_IMPORT_SLOTS.map(slot=>`${slot.label}:${Object.keys(imported[slot.key].values).length}`).join(' | ');
+    const missing=CAT_IMPORT_SLOTS.map(slot=>{
+      const missingNames=CAT_BASE_ORDER.filter(name=>imported[slot.key].values[name]==null);
+      return missingNames.length?`${slot.label} ขาด ${missingNames.length}`:'';
+    }).filter(Boolean).join(' | ');
+    const extraMsg=extraNames.length?` | เพิ่มประเภทนอกชุดมาตรฐาน ${extraNames.join(', ')}`:'';
+    const missingMsg=missing?` | เติม 0.00 ให้ ${missing}`:'';
+    setCategoryImportStatus(`✅ นำเข้าสำเร็จ ${allNames.length} ประเภท (${counts})${missingMsg}${extraMsg}`,'#2e7d32');
+  }catch(err){
+    setCategoryImportStatus(`❌ ${err.message}`,'#c62828');
+  }
 }
 
 function handleXlsxFile(file){
@@ -1920,6 +2106,7 @@ function resetForm(){
   // ─ reset branch select ─
   $('bm-select').value = '';
 
+  resetCategoryImportUI();
   recalcPrivGovt();
   syncKPI();
   dismissBanner();
