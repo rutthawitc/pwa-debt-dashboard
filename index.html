@@ -452,28 +452,27 @@ body.print-prepping #print-only{
     </div>
 
     <div class="fsec">
-      <div class="fsh">📊 หนี้ค้าง เอกชน vs ราชการ (คำนวณอัตโนมัติ)</div>
+      <div class="fsh">📊 หนี้ค้าง เอกชน vs ราชการ</div>
       <div class="fsb">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;background:#e8f5e9;border:1px solid #66bb6a;border-radius:7px;padding:8px 12px;">
-          <span style="font-size:15px;">⚡</span>
-          <span style="font-size:12px;color:#1b5e20;">คำนวณจากตารางหนี้ค้างแยกประเภทด้านบน อัตโนมัติ<br>
-          <strong>เอกชน</strong> = ที่พักอาศัย + ธุรกิจขนาดเล็ก + ธุรกิจขนาดใหญ่ &nbsp;|&nbsp; <strong>ราชการ</strong> = ราชการ + รัฐวิสาหกิจ</span>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;background:#fff8e1;border:1px solid #ffd54f;border-radius:7px;padding:8px 12px;">
+          <span style="font-size:15px;">✍️</span>
+          <span style="font-size:12px;color:#8d6e63;"><strong>ปีปัจจุบัน</strong> คำนวณจากตารางหนี้ค้างแยกประเภทอัตโนมัติ ส่วน <strong>ปีก่อน</strong> ตั้งต้นเป็น <strong>0</strong> ให้ผู้ใช้ป้อนเอง</span>
         </div>
         <div class="fg fg4">
           <div class="fld"><label>หนี้เอกชน ปีปัจจุบัน (ลบ.)</label>
-            <input type="number" id="preview-pA" step="0.01" style="padding:8px 11px;border:1.5px solid #a5d6a7;border-radius:7px;background:#f1f8e9;font-family:var(--mono);font-size:13px;color:#2e7d32;font-weight:700;">
+            <input type="number" id="preview-pA" value="0" step="0.01" style="padding:8px 11px;border:1.5px solid #a5d6a7;border-radius:7px;background:#f1f8e9;font-family:var(--mono);font-size:13px;color:#2e7d32;font-weight:700;">
           </div>
           <div class="fld"><label>หนี้ราชการ ปีปัจจุบัน (ลบ.)</label>
-            <input type="number" id="preview-gA" step="0.01" style="padding:8px 11px;border:1.5px solid #a5d6a7;border-radius:7px;background:#f1f8e9;font-family:var(--mono);font-size:13px;color:#2e7d32;font-weight:700;">
+            <input type="number" id="preview-gA" value="0" step="0.01" style="padding:8px 11px;border:1.5px solid #a5d6a7;border-radius:7px;background:#f1f8e9;font-family:var(--mono);font-size:13px;color:#2e7d32;font-weight:700;">
           </div>
           <div class="fld"><label>หนี้เอกชน ปีก่อน (ลบ.)</label>
-            <input type="number" id="preview-pB" step="0.01" style="padding:8px 11px;border:1.5px solid #a5d6a7;border-radius:7px;background:#f1f8e9;font-family:var(--mono);font-size:13px;color:#2e7d32;font-weight:700;">
+            <input type="number" id="preview-pB" value="0" step="0.01" style="padding:8px 11px;border:1.5px solid #a5d6a7;border-radius:7px;background:#f1f8e9;font-family:var(--mono);font-size:13px;color:#2e7d32;font-weight:700;">
           </div>
           <div class="fld"><label>หนี้ราชการ ปีก่อน (ลบ.)</label>
-            <input type="number" id="preview-gB" step="0.01" style="padding:8px 11px;border:1.5px solid #a5d6a7;border-radius:7px;background:#f1f8e9;font-family:var(--mono);font-size:13px;color:#2e7d32;font-weight:700;">
+            <input type="number" id="preview-gB" value="0" step="0.01" style="padding:8px 11px;border:1.5px solid #a5d6a7;border-radius:7px;background:#f1f8e9;font-family:var(--mono);font-size:13px;color:#2e7d32;font-weight:700;">
           </div>
         </div>
-        <button class="add-btn" style="margin-top:10px;" onclick="recalcPrivGovt()">🔄 คำนวณใหม่</button>
+        <button class="add-btn" style="margin-top:10px;" onclick="resetPrivGovtPrevInputs()">รีเซ็ตค่าปีก่อนเป็น 0</button>
       </div>
     </div>
 
@@ -903,7 +902,7 @@ async function importCategoryFiles(){
     const allNames=[...CAT_BASE_ORDER,...extraNames];
     renderCategoryImportRows(allNames,imported);
     syncKPI();
-    recalcPrivGovt();
+    recalcPrivGovtCurrent();
 
     const counts=CAT_IMPORT_SLOTS.map(slot=>`${slot.label}:${Object.keys(imported[slot.key].values).length}`).join(' | ');
     const missing=CAT_IMPORT_SLOTS.map(slot=>{
@@ -1036,7 +1035,7 @@ function addCat(){
   const tr=document.createElement('tr');
   tr.innerHTML='<td><input value="ประเภทใหม่"></td><td><input type="number" value="0" step="0.01"></td><td><input type="number" value="0" step="0.01"></td><td><input type="number" value="0" step="0.01"></td><td><input type="number" value="0" step="0.01"></td>';
   $('cat-rows').appendChild(tr);
-  recalcPrivGovt();
+  recalcPrivGovtCurrent();
 }
 
 // ─ sync เขตอัตโนมัติ เมื่อเลือกสาขา ─
@@ -1045,26 +1044,23 @@ function syncRegion(){
   if(el) el.value = 'กปภ.เขต 6';
 }
 
-
 // เอกชน = ที่พักอาศัย + ธุรกิจขนาดเล็ก + ธุรกิจขนาดใหญ่
 // ราชการ = ราชการ + รัฐวิสาหกิจ
-const PRIV_KW = ['พักอาศัย','ธุรกิจ'];   // keyword matching
+const PRIV_KW = ['พักอาศัย','ธุรกิจ'];
 const GOVT_KW = ['ราชการ','รัฐวิสาหกิจ'];
 
-function calcPrivGovtFromTable(){
-  // column order: ประเภท, รายได้A, หนี้ค้างA, รายได้B, หนี้ค้างB
+function calcPrivGovtCurrentFromTable(){
   const cats = getTbl('cat-rows',['n','rA','dA','rB','dB']);
-  let pA=0, gA=0, pB=0, gB=0;
+  let pA=0, gA=0;
   cats.forEach(c=>{
     const name = c.n || '';
-    const dA   = parseFloat(c.dA)||0;
-    const dB   = parseFloat(c.dB)||0;
+    const dA = parseFloat(c.dA)||0;
     const isPriv = PRIV_KW.some(k=>name.includes(k));
     const isGovt = GOVT_KW.some(k=>name.includes(k));
-    if(isPriv){ pA+=dA; pB+=dB; }
-    else if(isGovt){ gA+=dA; gB+=dB; }
+    if(isPriv) pA += dA;
+    else if(isGovt) gA += dA;
   });
-  return {pA, gA, pB, gB};
+  return {pA,gA};
 }
 
 function getPrivGovtValues(){
@@ -1077,16 +1073,22 @@ function getPrivGovtValues(){
   };
 }
 
-function recalcPrivGovt(){
-  const {pA,gA,pB,gB} = calcPrivGovtFromTable();
+function recalcPrivGovtCurrent(){
+  const {pA,gA} = calcPrivGovtCurrentFromTable();
   const set = (id,v)=>{ const el=$(id); if(el) el.value=v.toFixed(2); };
-  set('preview-pA',pA); set('preview-gA',gA);
-  set('preview-pB',pB); set('preview-gB',gB);
+  set('preview-pA',pA);
+  set('preview-gA',gA);
 }
 
-// auto-recalc เมื่อ cat-rows เปลี่ยนค่า
+function resetPrivGovtPrevInputs(){
+  ['preview-pB','preview-gB'].forEach(id=>{
+    const el=$(id);
+    if(el) el.value='0';
+  });
+}
+
 document.addEventListener('input', e=>{
-  if(e.target.closest('#cat-rows')) recalcPrivGovt();
+  if(e.target.closest('#cat-rows')) recalcPrivGovtCurrent();
 });
 
 function addMo(){const tr=document.createElement('tr');tr.innerHTML='<td><input value="เดือน"></td><td><input type="number" value="0" step="0.01"></td><td><input type="number" value="0" step="0.01"></td>';$('mo-rows').appendChild(tr);}
@@ -1810,10 +1812,6 @@ window.addEventListener('afterprint',()=>{
   Object.values(charts).forEach(c=>{if(c)c.options.animation={duration:600};});
 });
 
-// คำนวณ เอกชน/ราชการ — setTimeout(0) เพื่อให้ DOM และ script พร้อมก่อน
-setTimeout(recalcPrivGovt, 0);
-window.addEventListener('load', recalcPrivGovt);
-
 // ═══════════════════════════════════════════════════════════
 // BRANCH MANAGER — localStorage flat-file storage
 // key format: "bda_branch_{branchKey}" → JSON string
@@ -1995,9 +1993,8 @@ function bmRestore(d){
     });
   }
   syncKPI();
-  if([d.pA,d.gA,d.pB,d.gB].every(v => v == null || v === '')){
-    recalcPrivGovt();
-  }
+  recalcPrivGovtCurrent();
+  if([d.pB,d.gB].every(v => v == null || v === '')) resetPrivGovtPrevInputs();
 }
 
 // ─ SAVE ─
@@ -2052,6 +2049,7 @@ function bmDelete(){
 // ─ Init: โหลดรายการสาขาตอนเปิดหน้า ─
 bmRefreshList();
 syncKPI();
+setTimeout(recalcPrivGovtCurrent, 0);
 
 // ═══════════════════════════════════════════════════════════
 // RESET & BANNER
@@ -2107,8 +2105,9 @@ function resetForm(){
   $('bm-select').value = '';
 
   resetCategoryImportUI();
-  recalcPrivGovt();
   syncKPI();
+  recalcPrivGovtCurrent();
+  resetPrivGovtPrevInputs();
   dismissBanner();
   bmToast('🔄 Reset เรียบร้อย — พร้อมกรอกข้อมูลใหม่', '#1565c0');
 }
